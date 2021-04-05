@@ -169,7 +169,7 @@ function ChannelConfig(props: ChannelConfigProps) {
 	return (
 		<div>
 			<form className="ConfigForm" onSubmit={formSubmit}>
-				<TextField onChange={handleChange} name="id" label="ID" margin="normal" defaultValue={channel.id} />
+				<TextField onChange={handleChange} name="id" disabled label="ID" margin="normal" defaultValue={channel.id} />
 				<TextField onChange={handleChange} name="name" label="Name" margin="normal" defaultValue={channel.name} />
 				<TextField
 					onChange={handleChange}
