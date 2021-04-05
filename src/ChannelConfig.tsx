@@ -25,6 +25,9 @@ interface ChannelConfigProps {
 }
 
 function ChannelConfig(props: ChannelConfigProps) {
+	/** TODO: whe hitting update the channel in firestore gets updated but locally it is still the same,
+	 * will need to lift channel state up and add update functions so that it can be updated on the grid locally */
+
 	const [loading, setLoading] = useState(false);
 	const [channel, setChannel] = useState(props.channel);
 	const [languageDialogOpen, setLanguageDialogOpen] = useState(false);
