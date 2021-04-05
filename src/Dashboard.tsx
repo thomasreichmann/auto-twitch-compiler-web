@@ -22,7 +22,6 @@ function Dashboard() {
 
 	const getChannels = async () => {
 		const c = await FirestoreService.getChannels();
-		console.log(`got channels from firebase`);
 		c.sort((a, b) => {
 			var textA = a.name.toUpperCase();
 			var textB = b.name.toUpperCase();
@@ -62,7 +61,11 @@ function Dashboard() {
 				<IconButton aria-label="share" onClick={e => setChannelDialogOpen(true)}>
 					<Add style={{ color: 'green' }} />
 				</IconButton>
-				<ChannelDialog open={channelDialogOpen} onClose={() => setChannelDialogOpen(false)} onCreate={c => handleChannelDialogCreate(c)} />
+				<ChannelDialog
+					open={channelDialogOpen}
+					onClose={() => setChannelDialogOpen(false)}
+					onCreate={c => handleChannelDialogCreate(c)}
+				/>
 			</Paper>
 		</Container>
 	);
