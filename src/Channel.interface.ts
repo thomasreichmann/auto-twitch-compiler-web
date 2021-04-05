@@ -3,12 +3,12 @@ interface IObjectKeys {
 }
 
 interface Channel extends IObjectKeys {
-	id: string;
-	name: string;
-	gameId: string;
-	gameName: string;
-	youtubeApiKey: string;
-	maxClipAge: string;
+	id: string | '';
+	name: string | '';
+	gameId: string | '';
+	gameName: string | '';
+	youtubeApiKey: string | '';
+	titleTemplate: string | '';
 	languages: Language[];
 	uploadTimes: string[];
 }

@@ -14,12 +14,12 @@ interface ChannelDialogProps {
 
 function ChannelDialog(props: ChannelDialogProps) {
 	let ch: Channel = {
-		id: '0',
+		id: '',
 		name: '',
 		gameId: '',
 		gameName: '',
 		youtubeApiKey: '',
-		maxClipAge: '',
+		titleTemplate: '',
 		languages: [],
 		uploadTimes: [],
 	};
@@ -35,9 +35,27 @@ function ChannelDialog(props: ChannelDialogProps) {
 			<DialogContent className="LanguageDialog">
 				<DialogTitle>Criar Channel</DialogTitle>
 				<TextField onChange={handleChange} name="name" label="Name" margin="normal" defaultValue={channel.name} />
-				<TextField onChange={handleChange} name="gameId" label="Game ID" margin="normal" defaultValue={channel.gameId} />
-				<TextField onChange={handleChange} name="gameName" label="Game Name" margin="normal" defaultValue={channel.gameName} />
-				<TextField onChange={handleChange} name="youtubeApiKey" label="YT api key" margin="normal" defaultValue={channel.youtubeApiKey} />
+				<TextField
+					onChange={handleChange}
+					name="gameId"
+					label="Game ID"
+					margin="normal"
+					defaultValue={channel.gameId}
+				/>
+				<TextField
+					onChange={handleChange}
+					name="gameName"
+					label="Game Name"
+					margin="normal"
+					defaultValue={channel.gameName}
+				/>
+				<TextField
+					onChange={handleChange}
+					name="youtubeApiKey"
+					label="YT api key"
+					margin="normal"
+					defaultValue={channel.youtubeApiKey}
+				/>
 				<Button id="LanguageDialogButton" variant="contained" color="primary" onClick={e => props.onCreate(channel)}>
 					Add
 				</Button>

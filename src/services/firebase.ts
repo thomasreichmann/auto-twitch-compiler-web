@@ -26,16 +26,10 @@ export async function getChannels(): Promise<Channel[]> {
 	const data = await db.collection('channels').get();
 
 	return data.docs.map(doc => {
-		let info = doc.data();
+		let info = doc.data() as Channel;
 		return {
+			...info,
 			id: doc.id,
-			name: info.name,
-			gameId: info.gameId,
-			gameName: info.gameName,
-			youtubeApiKey: info.youtubeApiKey,
-			maxClipAge: info.maxClipAge,
-			languages: info.languages,
-			uploadTimes: info.uploadTimes,
 		};
 	});
 }

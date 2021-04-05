@@ -62,11 +62,12 @@ function ChannelConfig(props: ChannelConfigProps) {
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		console.log(e.target.name);
 		let target = channel[e.target.name];
 		target = e.target.value;
 		setChannel({
 			...channel,
-			target,
+			[e.target.name]: target,
 		});
 	};
 
@@ -91,8 +92,7 @@ function ChannelConfig(props: ChannelConfigProps) {
 
 	const handleLanguageDialogCreate = (language: Language) => {
 		handleLanguageDialogClose();
-		let lang = language;
-		channel.languages.push(lang);
+		channel.languages.push(language);
 		setChannel(channel);
 	};
 
@@ -194,11 +194,10 @@ function ChannelConfig(props: ChannelConfigProps) {
 				/>
 				<TextField
 					onChange={handleChange}
-					name="maxClipAge"
-					type="time"
-					label="clip age"
+					name="titleTemplate"
+					label="Title Template"
 					margin="normal"
-					defaultValue={channel.maxClipAge}
+					defaultValue={channel.titleTemplate}
 				/>
 
 				<Card elevation={2} className="LanguageCard">
