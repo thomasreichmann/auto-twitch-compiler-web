@@ -25,6 +25,7 @@ export class ChannelGrid extends React.Component<ChannelGridProps> {
 							<TableCell>ID</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Game</TableCell>
+							<TableCell />
 						</TableRow>
 					</TableHead>
 					<TableBody>{rows}</TableBody>

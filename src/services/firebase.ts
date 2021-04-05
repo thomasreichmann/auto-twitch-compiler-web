@@ -4,7 +4,7 @@ import 'firebase/auth';
 
 import Channel from '../Channel.interface';
 
-const firebaseConfig = {
+export const firebaseConfig = {
 	apiKey: 'AIzaSyCv0zuU2MlcENDJCjaHQMNGFM7LAVcuVg8',
 	authDomain: 'auto-twitch-compiler.firebaseapp.com',
 	databaseURL: 'https://auto-twitch-compiler-default-rtdb.firebaseio.com',
@@ -33,7 +33,9 @@ export async function getChannels(): Promise<Channel[]> {
 			gameId: info.gameId,
 			gameName: info.gameName,
 			youtubeApiKey: info.youtubeApiKey,
+			maxClipAge: info.maxClipAge,
 			languages: info.languages,
+			uploadTimes: info.uploadTimes,
 		};
 	});
 }

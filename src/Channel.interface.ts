@@ -1,5 +1,5 @@
 interface IObjectKeys {
-	[key: string]: string | number | Language[];
+	[key: string]: string | number | Language[] | string[];
 }
 
 interface Channel extends IObjectKeys {
@@ -8,7 +8,9 @@ interface Channel extends IObjectKeys {
 	gameId: string;
 	gameName: string;
 	youtubeApiKey: string;
+	maxClipAge: string;
 	languages: Language[];
+	uploadTimes: string[];
 }
 
 export interface Language extends IObjectKeys {

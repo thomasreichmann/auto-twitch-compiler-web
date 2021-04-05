@@ -45,3 +45,23 @@
 	flex-direction: column;
 	justify-content: center;
 }
+
+.LoginWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.timeField {
+	width: 200px;
+}
+
+.timePlaceHolderContainer {
+	width: 232px;
+	margin: auto;
+}
+
+.timeContent {
+	width: 20%;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -48,7 +48,12 @@ function ChannelLanguageDialog(props: LanguageDialogProps) {
 					margin="normal"
 					defaultValue={language.ammount}
 				/>
-				<Button id="LanguageDialogButton" variant="contained" color="primary" onClick={e => handleLanguageCreate(language)}>
+				<Button
+					id="LanguageDialogButton"
+					variant="contained"
+					color="primary"
+					onClick={e => handleLanguageCreate(language)}
+				>
 					Add
 				</Button>
 			</DialogContent>

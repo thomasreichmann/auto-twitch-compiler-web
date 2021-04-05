@@ -5,7 +5,6 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Remove from '@material-ui/icons/Remove';
 import Channel from './Channel.interface';
 import ChannelConfig from './ChannelConfig';
-import * as FirestoreService from './services/firebase';
 
 interface ChannelGridRowProps {
 	channel: Channel;

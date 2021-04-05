@@ -1,5 +1,5 @@
 import Channel from './Channel.interface';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,11 +15,13 @@ interface ChannelDialogProps {
 function ChannelDialog(props: ChannelDialogProps) {
 	let ch: Channel = {
 		id: '0',
-		name: 'ChangeMe',
-		gameId: '1701',
-		gameName: 'test',
-		youtubeApiKey: '123',
+		name: '',
+		gameId: '',
+		gameName: '',
+		youtubeApiKey: '',
+		maxClipAge: '',
 		languages: [],
+		uploadTimes: [],
 	};
 	const [channel, setChannel] = useState(ch);
 
