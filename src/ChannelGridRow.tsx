@@ -44,9 +44,9 @@ class ChannelGridRow extends React.Component<ChannelGridRowProps, ChannelGridRow
 							{this.state.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 						</IconButton>
 					</TableCell>
-					<TableCell>{channel.id}</TableCell>
 					<TableCell>{channel.name}</TableCell>
 					<TableCell>{channel.gameName}</TableCell>
+					<TableCell>{channel.id}</TableCell>
 					<TableCell>
 						<IconButton aria-label="share" onClick={e => this.handleChannelDelete()}>
 							<Remove style={{ color: 'red' }} />

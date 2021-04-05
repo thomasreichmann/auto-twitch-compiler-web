@@ -13,7 +13,9 @@ interface ChannelGridProps {
 export class ChannelGrid extends React.Component<ChannelGridProps> {
 	render() {
 		const rows = this.props.channels.map(channel => {
-			return <ChannelGridRow key={channel.id} channel={channel} onDelete={c => this.props.onDelete(c)}></ChannelGridRow>;
+			return (
+				<ChannelGridRow key={channel.id} channel={channel} onDelete={c => this.props.onDelete(c)}></ChannelGridRow>
+			);
 		});
 
 		return (
@@ -22,9 +24,9 @@ export class ChannelGrid extends React.Component<ChannelGridProps> {
 					<TableHead>
 						<TableRow>
 							<TableCell />
-							<TableCell>ID</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Game</TableCell>
+							<TableCell>ID</TableCell>
 							<TableCell />
 						</TableRow>
 					</TableHead>
