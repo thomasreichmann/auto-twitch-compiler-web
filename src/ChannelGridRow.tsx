@@ -27,8 +27,6 @@ class ChannelGridRow extends React.Component<ChannelGridRowProps, ChannelGridRow
 		});
 	}
 
-	// TODO: get this shit delete button working, prob need to redo this class as a functiond idk ::9 gl!
-
 	async handleChannelDelete() {
 		this.props.onDelete(this.props.channel);
 	}
