@@ -201,22 +201,21 @@ function ChannelConfig(props: ChannelConfigProps) {
 				/>
 
 				<Card elevation={2} className="LanguageCard">
-					{renderLanguages()}
-
-					<CardActions style={{ margin: 'auto' }}>
+					<CardActions className="timePlaceHolderContainer">
 						<IconButton aria-label="share" onClick={e => setLanguageDialogOpen(true)}>
 							<Add style={{ color: 'green' }} />
 						</IconButton>
 					</CardActions>
+					{renderLanguages()}
 				</Card>
 
 				<Card elevation={2} className="LanguageCard">
-					{renderUploadTimes()}
 					<CardActions className="timePlaceHolderContainer">
 						<IconButton className="addTimeButton" aria-label="share" onClick={e => createUploadTime()}>
 							<Add style={{ color: 'green' }} />
 						</IconButton>
 					</CardActions>
+					{renderUploadTimes()}
 				</Card>
 
 				<Button
