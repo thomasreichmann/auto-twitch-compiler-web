@@ -42,9 +42,7 @@ function ChannelConfig(props: ChannelConfigProps) {
 	};
 
 	const handleTimeDelete = (i: number) => {
-		let uploadTimes = channel.uploadTimes
-			.slice(0, i)
-			.concat(channel.uploadTimes.slice(i + 1, channel.uploadTimes.length));
+		let uploadTimes = channel.uploadTimes.slice(0, i).concat(channel.uploadTimes.slice(i + 1, channel.uploadTimes.length));
 		setChannel({
 			...channel,
 			uploadTimes,
@@ -84,6 +82,7 @@ function ChannelConfig(props: ChannelConfigProps) {
 		(async () => {
 			setLoading(true);
 			await FirebaseService.updateChannel(channel);
+			await fetch('http://35.247.236.192:3000/refresh');
 			setLoading(false);
 		})();
 		e.preventDefault();
@@ -174,13 +173,7 @@ function ChannelConfig(props: ChannelConfigProps) {
 			<form className="ConfigForm" onSubmit={formSubmit}>
 				<TextField onChange={handleChange} name="id" disabled label="ID" margin="normal" defaultValue={channel.id} />
 				<TextField onChange={handleChange} name="name" label="Name" margin="normal" defaultValue={channel.name} />
-				<TextField
-					onChange={handleChange}
-					name="gameId"
-					label="Game ID"
-					margin="normal"
-					defaultValue={channel.gameId}
-				/>
+				<TextField onChange={handleChange} name="gameId" label="Game ID" margin="normal" defaultValue={channel.gameId} />
 				<TextField
 					onChange={handleChange}
 					name="gameName"
@@ -221,24 +214,13 @@ function ChannelConfig(props: ChannelConfigProps) {
 					{renderUploadTimes()}
 				</Card>
 
-				<Button
-					id="updateButton"
-					aria-label="share"
-					type="submit"
-					value="Submit"
-					variant="contained"
-					color="primary"
-				>
+				<Button id="updateButton" aria-label="share" type="submit" value="Submit" variant="contained" color="primary">
 					Atualizar
 				</Button>
 
 				{load}
 			</form>
-			<LanguageDialog
-				open={languageDialogOpen}
-				onClose={handleLanguageDialogClose}
-				onCreate={handleLanguageDialogCreate}
-			/>
+			<LanguageDialog open={languageDialogOpen} onClose={handleLanguageDialogClose} onCreate={handleLanguageDialogCreate} />
 		</div>
 	);
 }
