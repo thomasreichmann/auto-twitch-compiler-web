@@ -82,7 +82,6 @@ function ChannelConfig(props: ChannelConfigProps) {
 		(async () => {
 			setLoading(true);
 			await FirebaseService.updateChannel(channel);
-			await fetch('http://35.247.236.192:3000/refresh');
 			setLoading(false);
 		})();
 		e.preventDefault();
