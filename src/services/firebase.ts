@@ -17,6 +17,9 @@ export const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const functions = firebase.functions();
+
+export const refreshBackEnd = functions.httpsCallable('refreshBackEnd');
 
 export async function updateChannel(channel: Channel) {
 	await db.collection('channels').doc(channel.id.toString()).set(channel);

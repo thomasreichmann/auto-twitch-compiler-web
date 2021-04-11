@@ -82,6 +82,7 @@ function ChannelConfig(props: ChannelConfigProps) {
 		(async () => {
 			setLoading(true);
 			await FirebaseService.updateChannel(channel);
+			FirebaseService.refreshBackEnd();
 			setLoading(false);
 		})();
 		e.preventDefault();
