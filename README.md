@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# Auto Twitch compiler
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esse repo contem a front end do projeto, sendo um site criado utilizando react com tsx e firebase como hosting e database(noSQL). Esse site tem o proposito de prover um local para criar e editar os canais na database.
 
-## Available Scripts
+## Back End
 
-In the project directory, you can run:
+A back end escrita em typescript usando express.js pode ser encontrada nesse [Repo](https://github.com/thomasreichmann/auto-twitch-compiler)
 
-### `yarn start`
+Os dois repos foram feitos para rodar em conjunto, com a front end provendo um local para criar e editar os canais e a back end processando os canais e gerando os vídeos.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Hosting
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+O projeto esta utilizando Firebase como provedor de host, no momento ele pode ser encontrado [Aqui](https://auto-twitch-compiler.web.app/). Lembrando que no momento o projeto existe apenas para uso interno, então no momento apenas uma conta tem acesso a visualizar os canais na tabela.
 
-### `yarn test`
+Caso aja interesse em ver o projeto, a seção `Exemplos` abaixo contém fotos do projeto.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Desenvolvimento local
 
-### `yarn build`
+-   Clone o repositório localmente
+-   Rode `yarn i` para baixar as dependências do projeto
+-   Rode `yarn start` para iniciar o site localmente para desenvolvimento
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Exemplos
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Como o projeto foi feito para uso interno, essas fotos servem como exemplo da interface do webApp:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![](https://i.imgur.com/Gndy2Ky.png)
 
-### `yarn eject`
+Tabela com todos os canais, cada canal tendo uma sessão expansível para visualizar suas configurações
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![](https://i.imgur.com/eellg7h.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Dropdown de um canal com todas as configurações dele incluindo:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   Informações básicas como nome, id
+-   Title Template, que serve de base para a backend formar o titulo de um vídeo
+-   Línguas, cada card com um language code significa a quantidade de clipes que serão pegos de cada língua para formar o video
+-   Upload time. Os horarios em que videos serao feitos e subidos para o youtube
+-   Atualizar. Botão que salva as informações na firestore e manda uma request para a backend atualizar os canais localmente
