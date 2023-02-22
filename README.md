@@ -11,3 +11,7 @@ and host it on Vercel (from firebase), while also completely detaching from fire
 ---
 
 The rewrite will both happen on this repo (front-end) and on the back-end repo more info on the back-end rewrite can be found there.
+
+## Dev
+
+- developed with node `v19.4.0`
