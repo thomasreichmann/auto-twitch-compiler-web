@@ -1,29 +1,22 @@
-import { Russo_One } from "@next/font/google";
 import { GetServerSideProps } from "next";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
 import React from "react";
 
-type LoginProps = {
-  callbackUrl: String | undefined;
-};
-
-export default function Login() {
-  return (
-    <button onClick={() => signIn("google", { callbackUrl: "" })}>login</button>
-  );
+interface LoginProps {
+  callbackUrl: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log(context.query);
+export default function Login(props: LoginProps) {
+  console.log(props);
+  return <button onClick={() => signIn("google", { callbackUrl: props.callbackUrl ?? "" })}>login</button>;
+}
 
-  const props: LoginProps = {
-    callbackUrl: context.query.callbackUrl as String,
-  };
+export const getServerSideProps: GetServerSideProps<LoginProps> = async context => {
+  let callbackUrl = context.query.callbackUrl as string | null;
 
   return {
     props: {
-      callbackUrl: context.query.callbackUrl,
+      callbackUrl: callbackUrl ?? "",
     },
   };
 };
