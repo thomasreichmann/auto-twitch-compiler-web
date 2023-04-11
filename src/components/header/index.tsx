@@ -1,53 +1,91 @@
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import {
-  AppBar,
   Box,
   Button,
-  Divider,
+  Drawer,
   IconButton,
   Toolbar,
-  Typography,
+  styled,
+  useTheme,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { signOut, useSession } from "next-auth/react";
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-import HeaderContainer from "./heraderContainer";
+import { ReactNode, useState } from "react";
+import { BarContent } from "./barContent";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-export const Header = () => {
-  const { data: session, status } = useSession();
+const drawerWidth = 240;
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
+
+const Header = () => {
+  const theme = useTheme();
+
+  const [open, setOpen] = useState(true);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <HeaderContainer>
-      <IconButton
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2 }}
-      >
-        <MenuIcon />
-      </IconButton>
-
-      <Grid
-        container
-        columnSpacing={2}
-        sx={{ flexGrow: 1, alignItems: "center" }}
-      >
-        <Grid>
-          <Typography variant="h6">{session?.user?.name}</Typography>
-        </Grid>
-
-        <Divider orientation="vertical" variant={"middle"} flexItem />
-
-        <Grid xs>
-          <Typography>{session?.user?.email}</Typography>
-        </Grid>
-        <Grid>
-          <Button onClick={() => signOut()} variant="contained" color="warning">
-            Sign out
-          </Button>
-        </Grid>
-      </Grid>
-    </HeaderContainer>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" open={open}>
+          <Toolbar>
+            <BarContent onDrawerClick={() => setOpen(!open)} />
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          open={open}
+          variant="persistent"
+          anchor="left"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+            </IconButton>
+          </DrawerHeader>
+        </Drawer>
+      </Box>
+    </>
   );
 };
+
+export default Header;
