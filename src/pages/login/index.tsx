@@ -1,27 +1,30 @@
 import { Button } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { signIn } from "next-auth/react";
-import React from "react";
+import React, { ReactNode } from "react";
+import { NextPageWithLayout } from "../_app";
 
 interface LoginProps {
   callbackUrl: string;
 }
 
-export default function Login(props: LoginProps) {
+const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
   console.log(props);
   return (
     <>
-      <Button>Test</Button>
-      <button
+      <Button
+        variant="contained"
         onClick={() =>
           signIn("google", { callbackUrl: props.callbackUrl ?? "" })
         }
       >
-        login
-      </button>
+        Login
+      </Button>
     </>
   );
-}
+};
+
+Login.getLayout = (page) => page;
 
 export const getServerSideProps: GetServerSideProps<LoginProps> = async (
   context
@@ -34,3 +37,5 @@ export const getServerSideProps: GetServerSideProps<LoginProps> = async (
     },
   };
 };
+
+export default Login;
