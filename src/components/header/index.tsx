@@ -12,6 +12,8 @@ import { ReactNode, useState } from "react";
 import { BarContent } from "./barContent";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
+//todo: will need to change component tree to have header only be the top bar, and then have the header and drawer on the Layout
+
 const drawerWidth = 240;
 
 interface AppBarProps extends MuiAppBarProps {
