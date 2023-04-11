@@ -19,6 +19,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <button onClick={() => signOut()}>Sign out</button>
+        <h1>test update</h1>
       </main>
     </>
   );
