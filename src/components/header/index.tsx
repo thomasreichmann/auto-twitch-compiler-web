@@ -59,34 +59,32 @@ const Header = () => {
   };
 
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" open={open}>
-          <Toolbar>
-            <BarContent onDrawerClick={() => setOpen(!open)} />
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          open={open}
-          variant="persistent"
-          anchor="left"
-          sx={{
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" open={open}>
+        <Toolbar>
+          <BarContent onDrawerClick={() => setOpen(!open)} />
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        open={open}
+        variant="persistent"
+        anchor="left"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
-            </IconButton>
-          </DrawerHeader>
-        </Drawer>
-      </Box>
-    </>
+            boxSizing: "border-box",
+          },
+        }}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+          </IconButton>
+        </DrawerHeader>
+      </Drawer>
+    </Box>
   );
 };
 

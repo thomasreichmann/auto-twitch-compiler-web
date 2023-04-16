@@ -1,6 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Paper } from "@mui/material";
 import Header from "../header";
 
 const Layout = (page: ReactElement): ReactNode => {
