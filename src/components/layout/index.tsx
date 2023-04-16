@@ -1,0 +1,125 @@
+import React, { ReactElement, ReactNode, useState } from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import Header, { HeaderProps } from "../header";
+import {
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
+import { ChevronLeft, ChevronRight, Inbox, Mail } from "@mui/icons-material";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import DrawerContent from "./drawerContent";
+
+const drawerWidth = 240;
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
+
+const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: 0,
+  ...(open && {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: `${drawerWidth}px`,
+  }),
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const Layout = (page: ReactElement): ReactNode => {
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Grid container direction="column">
+        <Grid>
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static" open={open}>
+              <Header onOpen={handleDrawerOpen} open={open} />
+            </AppBar>
+          </Box>
+        </Grid>
+        <Grid>
+          <Drawer
+            open={open}
+            variant="persistent"
+            anchor="left"
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+              },
+            }}
+          >
+            <DrawerHeader>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+              </IconButton>
+            </DrawerHeader>
+            <Divider />
+            <DrawerContent />
+          </Drawer>
+        </Grid>
+        <Grid>
+          <Main open={open}>{page}</Main>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
+export default Layout;
