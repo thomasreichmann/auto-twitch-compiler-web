@@ -1,9 +1,23 @@
 import React, { ReactElement, ReactNode, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import Header, { HeaderProps } from "../header";
-import { Box, Drawer, IconButton, styled, useTheme } from "@mui/material";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
+import { ChevronLeft, ChevronRight, Inbox, Mail } from "@mui/icons-material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import DrawerContent from "./drawerContent";
 
 const drawerWidth = 240;
 
@@ -96,6 +110,8 @@ const Layout = (page: ReactElement): ReactNode => {
                 {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
               </IconButton>
             </DrawerHeader>
+            <Divider />
+            <DrawerContent />
           </Drawer>
         </Grid>
         <Grid>

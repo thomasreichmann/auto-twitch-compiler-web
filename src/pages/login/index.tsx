@@ -9,7 +9,6 @@ interface LoginProps {
 }
 
 const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
-  console.log(props);
   return (
     <>
       <Button

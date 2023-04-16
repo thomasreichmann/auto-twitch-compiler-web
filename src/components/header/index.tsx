@@ -7,8 +7,6 @@ export interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-  console.log(props);
-
   return (
     <Toolbar>
       <BarContent onDrawerClick={props.onOpen} open={props.open} />
