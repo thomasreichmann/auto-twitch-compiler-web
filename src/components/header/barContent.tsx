@@ -14,9 +14,10 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 export type BarContentProps = {
   onDrawerClick: () => void;
+  open: boolean;
 };
 
-export const BarContent = ({ onDrawerClick }: BarContentProps) => {
+export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
   const { data: session, status } = useSession();
 
   return (
@@ -26,7 +27,7 @@ export const BarContent = ({ onDrawerClick }: BarContentProps) => {
         edge="start"
         color="inherit"
         aria-label="menu"
-        sx={{ mr: 2 }}
+        sx={{ mr: 2, ...(open && { display: "none" }) }}
         onClick={onDrawerClick}
       >
         <MenuIcon />
