@@ -1,23 +1,15 @@
 import React, { ReactElement, ReactNode, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import Header, { HeaderProps } from "../header";
-import {
-  Box,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  styled,
-  useTheme,
-} from "@mui/material";
-import { ChevronLeft, ChevronRight, Inbox, Mail } from "@mui/icons-material";
+import Header from "../header";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import DrawerContent from "./drawerContent";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { styled, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
 
 const drawerWidth = 240;
 
@@ -107,7 +99,11 @@ const Layout = (page: ReactElement): ReactNode => {
           >
             <DrawerHeader>
               <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+                {theme.direction === "ltr" ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
               </IconButton>
             </DrawerHeader>
             <Divider />
