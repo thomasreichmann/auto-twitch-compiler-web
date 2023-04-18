@@ -1,4 +1,3 @@
-import { Home, Inbox } from "@mui/icons-material";
 import {
   List,
   ListItemButton,
@@ -7,6 +6,8 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { ReactElement, ReactNode } from "react";
+import HomeIcon from "@mui/icons-material/Home";
+import InboxIcon from "@mui/icons-material/Inbox";
 
 type LinkProps = {
   icon: ReactElement;
@@ -33,9 +34,9 @@ const DrawerContent = () => {
   return (
     <>
       <List>
-        <DrawerLink icon={<Home />} href="/" title="Home" />
-        <DrawerLink icon={<Inbox />} href="test" title="Test" />
-        <DrawerLink icon={<Inbox />} href="edit" title="Edit" />
+        <DrawerLink icon={<HomeIcon />} href="/" title="Home" />
+        <DrawerLink icon={<InboxIcon />} href="test" title="Test" />
+        <DrawerLink icon={<InboxIcon />} href="edit" title="Edit" />
       </List>
     </>
   );
