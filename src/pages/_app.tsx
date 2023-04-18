@@ -4,7 +4,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
+import { Router as router, useRouter } from "next/router";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 
 const darkTheme = createTheme({
   palette: {
