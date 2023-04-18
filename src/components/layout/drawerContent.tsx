@@ -60,6 +60,7 @@ const DrawerContent = () => {
         <DrawerLink icon={<HomeIcon />} href="/" title="Home" />
         <DrawerLink icon={<InboxIcon />} href="/test" title="Test" />
         <DrawerLink icon={<InboxIcon />} href="/edit" title="Edit" />
+        <DrawerLink icon={<InboxIcon />} href="/login" title="Login" />
       </List>
     </>
   );

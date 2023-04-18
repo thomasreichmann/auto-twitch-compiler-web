@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from "react";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import Header from "../header";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
+import { useRouter } from "next/router";
 
 const drawerWidth = 240;
 
@@ -64,6 +65,7 @@ const AppBar = styled(MuiAppBar, {
 
 const Layout = (page: ReactElement): ReactNode => {
   const [open, setOpen] = useState(false);
+  const loading = useLoading();
   const theme = useTheme();
 
   const handleDrawerOpen = () => {
@@ -111,7 +113,7 @@ const Layout = (page: ReactElement): ReactNode => {
           </Drawer>
         </Grid>
         <Grid>
-          <Main open={open}>{page}</Main>
+          <Main open={open}>{loading ? <h1>loading...</h1> : page}</Main>
         </Grid>
       </Grid>
     </>
@@ -119,3 +121,29 @@ const Layout = (page: ReactElement): ReactNode => {
 };
 
 export default Layout;
+
+const useLoading = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const start = () => {
+      console.log("start");
+      setLoading(true);
+    };
+    const end = () => {
+      console.log("finished");
+      setLoading(false);
+    };
+    router.events.on("routeChangeStart", start);
+    router.events.on("routeChangeComplete", end);
+    router.events.on("routeChangeError", end);
+    return () => {
+      router.events.off("routeChangeStart", start);
+      router.events.off("routeChangeComplete", end);
+      router.events.off("routeChangeError", end);
+    };
+  }, [router]);
+
+  return loading;
+};
