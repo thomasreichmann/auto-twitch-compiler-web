@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import InboxIcon from "@mui/icons-material/Inbox";
+import Link from "next/link";
 
 const BASE_CLASS = "drawerLink";
 const ACTIVE_CLASS = "activeLink";
@@ -45,7 +46,8 @@ const DrawerLink = (props: LinkProps) => {
   return (
     <ListItemButton
       selected={className.match(ACTIVE_CLASS) != null}
-      onClick={handleClick}
+      LinkComponent={Link}
+      href={props.href}
     >
       <ListItemIcon>{props.icon}</ListItemIcon>
       <ListItemText primary={props.title} />
