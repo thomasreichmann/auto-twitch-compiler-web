@@ -11,6 +11,7 @@ import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import { useRouter } from "next/router";
+import Loading from "./loading";
 
 const drawerWidth = 240;
 
@@ -76,47 +77,47 @@ const Layout = (page: ReactElement): ReactNode => {
   };
 
   return (
-    <>
-      <Grid container direction="column">
-        <Grid>
-          <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" open={open}>
-              <Header onOpen={handleDrawerOpen} open={open} />
-            </AppBar>
-          </Box>
-        </Grid>
-        <Grid>
-          <Drawer
-            open={open}
-            variant="persistent"
-            anchor="left"
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
-            }}
-          >
-            <DrawerHeader>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "ltr" ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </DrawerHeader>
-            <Divider />
-            <DrawerContent />
-          </Drawer>
-        </Grid>
-        <Grid>
-          <Main open={open}>{loading ? <h1>loading...</h1> : page}</Main>
-        </Grid>
+    <Grid container sx={{ height: "100vh" }}>
+      <Grid xs={12}>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static" open={open}>
+            <Header onOpen={handleDrawerOpen} open={open} />
+          </AppBar>
+        </Box>
       </Grid>
-    </>
+      <Grid>
+        <Drawer
+          open={open}
+          variant="persistent"
+          anchor="left"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <DrawerContent />
+        </Drawer>
+      </Grid>
+      <Grid xs={12} sx={{ height: "100%" }}>
+        <Main sx={{ height: "100%" }} open={open}>
+          {loading ? <Loading /> : page}
+        </Main>
+      </Grid>
+    </Grid>
   );
 };
 
