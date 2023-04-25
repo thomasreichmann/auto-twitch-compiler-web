@@ -10,6 +10,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Footer from "@/components/footer";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
+
+import logoImg from "@/../public/logo.png";
 
 interface LoginProps {
   callbackUrl: string;
@@ -26,7 +29,10 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
         <Grid>
           <Paper elevation={3} sx={{ px: 20 }}>
             <Toolbar disableGutters>
-              <Typography sx={{ flexGrow: 1 }}>StreamLink LOGO</Typography>
+              <Image src={logoImg} alt="Vid Sync Logo" width={58} height={58} />
+              <Typography variant="h5" sx={{ flexGrow: 1, ml: 1 }}>
+                Vid Sync
+              </Typography>
               <Button
                 variant="contained"
                 onClick={() =>
@@ -45,7 +51,7 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              "*": { mt: 4 },
+              "& :is(h3, p):not(:first-child)": { mt: 4 },
             }}
           >
             <Typography
