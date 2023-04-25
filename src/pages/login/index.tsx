@@ -26,8 +26,8 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
   return (
     <Box sx={boxSx}>
       <Grid container direction="column" sx={{ height: "100%" }}>
-        <Grid>
-          <Paper elevation={3} sx={{ px: 20 }}>
+        <Grid sx={{ width: "100%" }}>
+          <Paper elevation={3} sx={{ px: { xs: 4, sm: 20 } }}>
             <Toolbar disableGutters>
               {/* <Image src={logoImg} alt="Vid Sync Logo" width={58} height={58} /> */}
               <Typography variant="h5" sx={{ flexGrow: 1, ml: 1 }}>
@@ -47,17 +47,21 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
         <Grid sx={{ display: "flex", flexGrow: 1 }}>
           <Box
             sx={{
-              mx: 30,
+              mx: { xs: 0, sm: 20 },
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              alignItems: { xs: "center", sm: "start" },
+              textAlign: { xs: "center", sm: "start" },
               "& :is(h3, p):not(:first-child)": { mt: 4 },
             }}
           >
             <Typography
               variant="h3"
               fontWeight="bold"
-              sx={{ maxWidth: "460px" }}
+              sx={{
+                maxWidth: { xs: "95%", sm: "460px" },
+              }}
             >
               Automate YouTube uploads with Twitch clips
             </Typography>
