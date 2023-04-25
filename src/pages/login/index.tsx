@@ -29,7 +29,7 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
         <Grid>
           <Paper elevation={3} sx={{ px: 20 }}>
             <Toolbar disableGutters>
-              <Image src={logoImg} alt="Vid Sync Logo" width={58} height={58} />
+              {/* <Image src={logoImg} alt="Vid Sync Logo" width={58} height={58} /> */}
               <Typography variant="h5" sx={{ flexGrow: 1, ml: 1 }}>
                 Vid Sync
               </Typography>
