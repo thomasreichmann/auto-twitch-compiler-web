@@ -27,8 +27,8 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
     <Box sx={boxSx}>
       <Grid container direction="column" sx={{ height: "100%" }}>
         <Grid>
-          <Paper elevation={3} sx={{ px: 16 }}>
-            <Toolbar>
+          <Paper elevation={3} sx={{ px: 20 }}>
+            <Toolbar disableGutters>
               <Typography sx={{ flexGrow: 1 }}>StreamLink LOGO</Typography>
               <Button
                 variant="contained"
@@ -42,7 +42,31 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
           </Paper>
         </Grid>
         <Grid sx={{ display: "flex", flexGrow: 1 }}>
-          <h1>Middle</h1>
+          <Box
+            sx={{
+              mx: 30,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              "*": { mt: 4 },
+            }}
+          >
+            <Typography
+              variant="h3"
+              fontWeight="bold"
+              sx={{ maxWidth: "460px" }}
+            >
+              Automate YouTube uploads with Twitch clips
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ maxWidth: "360px", color: "text.disabled" }}
+            >
+              Connect your Twitch.tv account to automatically upload video clips
+              to your YouTube channel. Effortlessly manage your content with our
+              easy-to-use platform. Try it now!
+            </Typography>
+          </Box>
         </Grid>
         <Grid>
           <Footer />
