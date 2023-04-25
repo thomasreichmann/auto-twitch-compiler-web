@@ -1,18 +1,15 @@
 import { GetServerSideProps } from "next";
 import { signIn } from "next-auth/react";
-import React, { ReactNode } from "react";
+import React from "react";
 import { NextPageWithLayout } from "../_app";
-import Link from "next/link";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2";
 import { SxProps } from "@mui/system/styleFunctionSx";
-import Header from "@/components/header";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Footer from "@/components/footer";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 interface LoginProps {
   callbackUrl: string;
