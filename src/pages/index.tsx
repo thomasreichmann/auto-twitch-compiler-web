@@ -3,12 +3,16 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { signOut, useSession } from "next-auth/react";
+import channelService, { Channel } from "@/services/channelService";
+import { GetServerSideProps } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
+export type HomeProps = {
+  channels: Channel[];
+};
 
-export default function Home() {
+export default function Home({ channels }: HomeProps) {
   // const { data: session, status } = useSession();
-
+  // TODO: see if the token in the session has our api key
   return (
     <>
       <Head>
@@ -20,7 +24,20 @@ export default function Home() {
       <main className={styles.main}>
         <button onClick={() => signOut()}>Sign out</button>
         <h1>test update</h1>
+        <h1>{channels[0].name}</h1>
       </main>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<HomeProps> = async (
+  context
+) => {
+  let channels = await channelService.getChannels(10);
+
+  return {
+    props: {
+      channels,
+    },
+  };
+};
