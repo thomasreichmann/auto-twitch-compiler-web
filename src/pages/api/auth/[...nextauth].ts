@@ -12,6 +12,13 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: {
+          access_type: "offline",
+          prompt: "consent",
+          response_type: "code",
+        },
+      },
     }),
   ],
   callbacks: {
@@ -22,6 +29,18 @@ export const authOptions: AuthOptions = {
       params.session.accessToken = account?.access_token;
 
       return params.session;
+    },
+    async signIn(params) {
+      if (params.account?.refresh_token) {
+        // Save new refresh token from signIn if we have received new access_token
+        try {
+          await accountRepository.updateAccount(params.user.id, params.account);
+        } catch (err) {
+          console.error("Error while updating account on signIn", err);
+        }
+      }
+
+      return true;
     },
   },
   adapter: MongoDBAdapter(clientPromise),
