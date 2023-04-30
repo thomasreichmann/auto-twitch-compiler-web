@@ -1,6 +1,5 @@
 import clientPromise from "@/lib/mongodb";
 import accountRepository from "@/repo/accountRepository";
-import { AcUnitOutlined } from "@mui/icons-material";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
@@ -22,19 +21,19 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session(params) {
-      let account = await accountRepository.findByUserId(params.user.id);
+    async session({ session, user }) {
+      let account = await accountRepository.findByUserId(user.id);
 
-      // console.log("SESSION CALLBACK:", account?.access_token);
-      params.session.accessToken = account?.access_token;
+      session.idToken = account?.access_token;
+      session.accessToken = account?.access_token;
 
-      return params.session;
+      return session;
     },
-    async signIn(params) {
-      if (params.account?.refresh_token) {
+    async signIn({ account, user }) {
+      if (account?.refresh_token) {
         // Save new refresh token from signIn if we have received new access_token
         try {
-          await accountRepository.updateAccount(params.user.id, params.account);
+          await accountRepository.updateAccount(user.id, account);
         } catch (err) {
           console.error("Error while updating account on signIn", err);
         }
