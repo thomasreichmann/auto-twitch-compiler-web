@@ -1,20 +1,17 @@
-import clientPromise from "@/lib/mongodb";
+import { getCollection } from "@/lib/repo";
 import { ObjectId } from "mongodb";
 import { Account } from "next-auth";
 
 const ACCOUNTS = "accounts";
 
-const accountRepository = {
+class AccountRepository {
   async findByUserId(userId: string | ObjectId): Promise<Account | null> {
-    let client = await clientPromise;
+    let collection = await getCollection<Account>(ACCOUNTS);
 
-    let account = client
-      .db()
-      .collection(ACCOUNTS)
-      .findOne<Account>({ userId: new ObjectId(userId) });
+    let account = collection.findOne({ userId: new ObjectId(userId) });
 
     return account;
-  },
-};
+  }
+}
 
-export default accountRepository;
+export default new AccountRepository();
