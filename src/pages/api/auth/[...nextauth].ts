@@ -13,6 +13,8 @@ export const authOptions: AuthOptions = {
       allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {
+          scope:
+            "https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube",
           access_type: "offline",
           prompt: "consent",
           response_type: "code",
@@ -24,7 +26,7 @@ export const authOptions: AuthOptions = {
     async session({ session, user }) {
       let account = await accountRepository.findByUserId(user.id);
 
-      session.idToken = account?.access_token;
+      session.idToken = account?.id_token;
       session.accessToken = account?.access_token;
 
       return session;
@@ -35,6 +37,7 @@ export const authOptions: AuthOptions = {
         try {
           await accountRepository.updateAccount(user.id, account);
         } catch (err) {
+          console.log(account, user);
           console.error("Error while updating account on signIn", err);
         }
       }

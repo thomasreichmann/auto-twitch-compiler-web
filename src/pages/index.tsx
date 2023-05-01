@@ -29,7 +29,7 @@ export default function Home({ channels }: HomeProps) {
         <button onClick={() => signOut()}>Sign out</button>
         <h1>test update</h1>
         <h1>{channels[0].name}</h1>
-        <h1>{session?.accessToken}</h1>
+        <h1>{session?.idToken}</h1>
       </main>
     </>
   );
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
 ) => {
   let session = await getServerSession(context.req, context.res, authOptions);
 
-  // console.log(session);
+  console.log(session);
 
   let channels = await channelService.getChannels(10);
 
