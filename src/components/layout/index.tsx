@@ -80,11 +80,9 @@ const useLoading = () => {
 
   useEffect(() => {
     const start = () => {
-      console.log("start");
       setLoading(true);
     };
     const end = () => {
-      console.log("finished");
       setLoading(false);
     };
     router.events.on("routeChangeStart", start);
