@@ -1,35 +1,22 @@
-import { randomInt } from "crypto";
+import { googleClient } from "@/lib/googleClient";
+import { google } from "googleapis";
+import { Account } from "next-auth";
 
 const channelService = {
-  getChannels: async (amt: number) => {
-    console.log("Fetching channels");
+  async getChannel(account: Account) {
+    const auth = googleClient.getAuth(account);
 
-    let users = (await (await fetch("https://dummyjson.com/users")).json())
-      .users as User[];
+    const youtube = google.youtube({ version: "v3", auth });
 
-    users.sort((a, b) => {
-      if (randomInt(10) < 5) {
-        return 1;
-      } else {
-        return -1;
-      }
+    let channels = await youtube.channels.list({
+      part: ["snippet"],
+      maxResults: 1,
+      mine: true,
     });
 
-    let channels: Channel[] = [];
+    if (!channels.data.items) throw Error(`No channel found for user`);
 
-    for (let i = 0; i < amt; i++) {
-      let user = users[i];
-
-      let channel: Channel = {
-        id: user.id,
-        name: user.firstName,
-        subscribers: user.age + user.height,
-      };
-
-      channels.push(channel);
-    }
-
-    return channels;
+    return channels.data.items[0];
   },
 };
 

@@ -26,8 +26,7 @@ export const authOptions: AuthOptions = {
     async session({ session, user }) {
       let account = await accountRepository.findByUserId(user.id);
 
-      session.idToken = account?.id_token;
-      session.accessToken = account?.access_token;
+      session.account = account;
 
       return session;
     },

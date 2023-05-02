@@ -7,12 +7,13 @@ import channelService, { Channel } from "@/services/channelService";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { youtube_v3 } from "googleapis";
 
 export type HomeProps = {
-  channels: Channel[];
+  channel: youtube_v3.Schema$Channel;
 };
 
-export default function Home({ channels }: HomeProps) {
+export default function Home({ channel }: HomeProps) {
   const { data: session, status } = useSession();
 
   // console.log(session);
@@ -28,8 +29,7 @@ export default function Home({ channels }: HomeProps) {
       <main className={styles.main}>
         <button onClick={() => signOut()}>Sign out</button>
         <h1>test update</h1>
-        <h1>{channels[0].name}</h1>
-        <h1>{session?.idToken}</h1>
+        <h1>{channel.snippet?.title}</h1>
       </main>
     </>
   );
@@ -40,13 +40,11 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
 ) => {
   let session = await getServerSession(context.req, context.res, authOptions);
 
-  console.log(session);
-
-  let channels = await channelService.getChannels(10);
+  let channel = await channelService.getChannel(session?.account);
 
   return {
     props: {
-      channels,
+      channel,
     },
   };
 };
