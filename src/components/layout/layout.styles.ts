@@ -1,8 +1,17 @@
 // Layout.styles.ts
-import { styled } from "@mui/material";
+import { SxProps, styled } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-const drawerWidth = 240;
+export const DRAWER_WIDTH = 240;
+
+export const drawerSx: SxProps = {
+  width: DRAWER_WIDTH,
+  flexShrink: 0,
+  "& .MuiDrawer-paper": {
+    width: DRAWER_WIDTH,
+    boxSizing: "border-box",
+  },
+};
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -30,7 +39,7 @@ export const Main = styled("div", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: `${drawerWidth}px`,
+    marginLeft: `${DRAWER_WIDTH}px`,
   }),
 }));
 
@@ -45,8 +54,8 @@ export const AppBar = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
+    width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    marginLeft: `${DRAWER_WIDTH}px`,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,

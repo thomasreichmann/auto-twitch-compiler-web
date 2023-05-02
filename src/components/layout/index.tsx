@@ -10,10 +10,9 @@ import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import { useRouter } from "next/router";
 import Loading from "./loading";
-import { AppBar, DrawerHeader, Main } from "./layout.styles";
+import { AppBar, DrawerHeader, Main, drawerSx } from "./layout.styles";
 import { useTheme } from "@mui/material/styles";
-
-const drawerWidth = 240;
+import { DRAWER_WIDTH } from "./layout.styles";
 
 const Layout = (page: ReactElement): ReactNode => {
   const [open, setOpen] = useState(false);
@@ -37,19 +36,7 @@ const Layout = (page: ReactElement): ReactNode => {
         </Box>
       </Grid>
       <Grid>
-        <Drawer
-          open={open}
-          variant="persistent"
-          anchor="left"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-        >
+        <Drawer open={open} variant="persistent" anchor="left" sx={drawerSx}>
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
