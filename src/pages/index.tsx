@@ -8,16 +8,13 @@ import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { youtube_v3 } from "googleapis";
+import { Paper, Typography } from "@mui/material";
 
 export type HomeProps = {
   channel: youtube_v3.Schema$Channel;
 };
 
 export default function Home({ channel }: HomeProps) {
-  const { data: session, status } = useSession();
-
-  // console.log(session);
-  // TODO: see if the token in the session has our api key
   return (
     <>
       <Head>
@@ -26,11 +23,9 @@ export default function Home({ channel }: HomeProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <button onClick={() => signOut()}>Sign out</button>
-        <h1>test update</h1>
-        <h1>{channel.snippet?.title}</h1>
-      </main>
+      <Paper>
+        <Typography>Videos uploaded: 12</Typography>
+      </Paper>
     </>
   );
 }

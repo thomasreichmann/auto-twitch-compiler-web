@@ -27,12 +27,11 @@ export const authOptions: AuthOptions = {
       let account = await accountRepository.findByUserId(user.id);
 
       session.account = account;
-
       return session;
     },
     async signIn({ account, user }) {
       if (account?.refresh_token) {
-        // Save new refresh token from signIn if we have received new access_token
+        // Save new refresh token from signIn if we have received new refresh_token
         try {
           await accountRepository.updateAccount(user.id, account);
         } catch (err) {
