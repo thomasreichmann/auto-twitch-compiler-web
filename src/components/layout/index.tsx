@@ -27,7 +27,7 @@ const Layout = (page: ReactElement): ReactNode => {
   };
 
   return (
-    <Grid container sx={{ height: "100vh" }}>
+    <Grid container sx={{ height: "100vh" }} direction="column">
       <Grid xs={12}>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static" open={open}>
@@ -50,7 +50,7 @@ const Layout = (page: ReactElement): ReactNode => {
           <DrawerContent />
         </Drawer>
       </Grid>
-      <Grid xs={12} sx={{ height: "100%" }}>
+      <Grid xs={12} sx={{ flexGrow: 1 }}>
         <Main sx={{ height: "100%" }} open={open}>
           {loading ? <Loading /> : page}
         </Main>
