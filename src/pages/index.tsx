@@ -7,6 +7,7 @@ import { youtube_v3 } from "googleapis";
 import Paper from "@mui/material/Paper";
 import DataCard from "@/components/dataCard";
 import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
+import { SyntheticEvent, useState } from "react";
 
 export type HomeProps = {
   channel: youtube_v3.Schema$Channel;
@@ -29,6 +30,17 @@ let games: Game[] = [
 ];
 
 export default function Home({ channel }: HomeProps) {
+  let [selectedGames, setSelectedGames] = useState<Game[]>([]);
+
+  const handleGamesChange = (
+    event: SyntheticEvent<Element, Event>,
+    value: Option | Option[] | null
+  ) => {
+    if (!Array.isArray(value)) return;
+
+    setSelectedGames(value);
+  };
+
   return (
     <>
       <Head>
@@ -38,7 +50,12 @@ export default function Home({ channel }: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Paper elevation={1} sx={{ height: "100%", padding: 3 }}>
-        <AutocompleteSelect id="games-select" options={games} />
+        <AutocompleteSelect
+          onChange={handleGamesChange}
+          id="games-select"
+          options={games}
+          value={selectedGames}
+        />
       </Paper>
     </>
   );

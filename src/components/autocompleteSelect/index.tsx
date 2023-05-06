@@ -1,27 +1,12 @@
-import Autocomplete, {
-  AutocompleteProps,
-  AutocompleteRenderInputParams,
-} from "@mui/material/Autocomplete";
+import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import React from "react";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { Paper, SxProps } from "@mui/material";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-
-export interface AutocompleteSelectProps<
-  T extends Option = Option,
-  Multiple extends boolean | undefined = true | false,
-  DisableClearable extends boolean | undefined = undefined,
-  FreeSolo extends boolean | undefined = undefined
-> extends Omit<
-    AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
-    "renderInput"
-  > {
-  options: T[];
-}
+import Paper from "@mui/material/Paper";
 
 export type Option = {
   id: string;
@@ -31,17 +16,13 @@ export type Option = {
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-const AutocompleteSelect = ({
-  options,
-  id,
-  ...rest
-}: AutocompleteSelectProps) => {
+const AutocompleteSelect = (
+  props: Omit<AutocompleteProps<Option, boolean, boolean, false>, "renderInput">
+) => {
   return (
     <Autocomplete
-      id={id}
-      options={options}
-      multiple
       disableCloseOnSelect
+      multiple
       PaperComponent={(props) => <Paper {...props} elevation={2} />}
       getOptionLabel={(option) => option.name}
       renderOption={(props, option, { selected, inputValue }) => {
@@ -74,7 +55,7 @@ const AutocompleteSelect = ({
       renderInput={(params) => (
         <TextField {...params} label="Checkboxes" placeholder="Games" />
       )}
-      {...rest}
+      {...props}
     />
   );
 };
