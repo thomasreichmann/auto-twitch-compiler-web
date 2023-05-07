@@ -7,13 +7,12 @@ import { youtube_v3 } from "googleapis";
 import Paper from "@mui/material/Paper";
 import DataCard from "@/components/dataCard";
 import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
-import { SyntheticEvent, useState } from "react";
-import infoService from "@/services/infoService";
+import { SyntheticEvent, useEffect, useState } from "react";
+import infoService, { AvailableGame } from "@/services/infoService";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 export type HomeProps = {
   channel: youtube_v3.Schema$Channel;
-  availableGames: Game[];
 };
 
 type Game = {
@@ -21,8 +20,15 @@ type Game = {
   name: string;
 };
 
-export default function Home({ channel, availableGames }: HomeProps) {
+export default function Home({ channel }: HomeProps) {
   let [selectedGames, setSelectedGames] = useState<Game[]>([]);
+  let [availableGames, setAvailableGames] = useState<AvailableGame[]>([]);
+
+  useEffect(() => {
+    fetch("/api/info/games")
+      .then((res) => res.json())
+      .then((data) => setAvailableGames(data));
+  }, []);
 
   const handleGamesChange = (
     event: SyntheticEvent<Element, Event>,
@@ -44,13 +50,28 @@ export default function Home({ channel, availableGames }: HomeProps) {
       <Grid container spacing={3}>
         <Grid xs={6}>
           <Paper elevation={1} sx={{ height: "100%", padding: 3 }}>
-            <AutocompleteSelect
-              onChange={handleGamesChange}
-              id="games-select"
-              label="Games"
-              options={availableGames}
-              value={selectedGames}
-            />
+            <Grid container>
+              <Grid xs={6}>
+                <AutocompleteSelect
+                  onChange={handleGamesChange}
+                  id="games-select"
+                  label="Games"
+                  placeholder="Games"
+                  limitTags={1}
+                  options={availableGames}
+                  value={selectedGames}
+                />
+              </Grid>
+              <Grid xs={6}>
+                <AutocompleteSelect
+                  onChange={handleGamesChange}
+                  id="games-select"
+                  label="Games"
+                  options={[]}
+                  // value={selectedGames}
+                />
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
         <Grid xs={6}>
