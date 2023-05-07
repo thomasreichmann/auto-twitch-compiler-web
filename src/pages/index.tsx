@@ -65,6 +65,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   context
 ) => {
   let session = await getServerSession(context.req, context.res, authOptions);
+  if (!session) throw new Error("No session found");
 
   let channel = await channelService.getChannel(session?.account);
 
