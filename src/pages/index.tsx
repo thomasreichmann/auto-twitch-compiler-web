@@ -8,9 +8,12 @@ import Paper from "@mui/material/Paper";
 import DataCard from "@/components/dataCard";
 import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
 import { SyntheticEvent, useState } from "react";
+import infoService from "@/services/infoService";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 export type HomeProps = {
   channel: youtube_v3.Schema$Channel;
+  availableGames: Game[];
 };
 
 type Game = {
@@ -18,18 +21,7 @@ type Game = {
   name: string;
 };
 
-let games: Game[] = [
-  { id: "1", name: "god of war" },
-  { id: "2", name: "celeste" },
-  { id: "3", name: "minecraft" },
-  { id: "4", name: "league of legends" },
-  { id: "5", name: "terraria" },
-  { id: "6", name: "slay the spire" },
-  { id: "7", name: "path of exile" },
-  { id: "8", name: "factorio" },
-];
-
-export default function Home({ channel }: HomeProps) {
+export default function Home({ channel, availableGames }: HomeProps) {
   let [selectedGames, setSelectedGames] = useState<Game[]>([]);
 
   const handleGamesChange = (
@@ -49,14 +41,22 @@ export default function Home({ channel }: HomeProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Paper elevation={1} sx={{ height: "100%", padding: 3 }}>
-        <AutocompleteSelect
-          onChange={handleGamesChange}
-          id="games-select"
-          options={games}
-          value={selectedGames}
-        />
-      </Paper>
+      <Grid container spacing={3}>
+        <Grid xs={6}>
+          <Paper elevation={1} sx={{ height: "100%", padding: 3 }}>
+            <AutocompleteSelect
+              onChange={handleGamesChange}
+              id="games-select"
+              label="Games"
+              options={availableGames}
+              value={selectedGames}
+            />
+          </Paper>
+        </Grid>
+        <Grid xs={6}>
+          <Paper elevation={1} sx={{ height: "100%", padding: 3 }}></Paper>
+        </Grid>
+      </Grid>
     </>
   );
 }
@@ -68,9 +68,12 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
 
   let channel = await channelService.getChannel(session?.account);
 
+  let availableGames = await infoService.getAvailableGames();
+
   return {
     props: {
       channel,
+      availableGames: JSON.parse(JSON.stringify(availableGames)),
     },
   };
 };
