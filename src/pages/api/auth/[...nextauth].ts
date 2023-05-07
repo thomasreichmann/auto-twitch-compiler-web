@@ -1,6 +1,5 @@
 import clientPromise from "@/lib/mongodb";
 import accountRepository from "@/repo/accountRepository";
-import { AcUnitOutlined } from "@mui/icons-material";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
@@ -12,16 +11,36 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: {
+          scope:
+            "https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube",
+          access_type: "offline",
+          prompt: "consent",
+          response_type: "code",
+        },
+      },
     }),
   ],
   callbacks: {
-    async session(params) {
-      let account = await accountRepository.findByUserId(params.user.id);
+    async session({ session, user }) {
+      let account = await accountRepository.findByUserId(user.id);
 
-      // console.log("SESSION CALLBACK:", account?.access_token);
-      params.session.accessToken = account?.access_token;
+      session.account = account;
+      return session;
+    },
+    async signIn({ account, user }) {
+      if (account?.refresh_token) {
+        // Save new refresh token from signIn if we have received new refresh_token
+        try {
+          await accountRepository.updateAccount(user.id, account);
+        } catch (err) {
+          console.log(account, user);
+          console.error("Error while updating account on signIn", err);
+        }
+      }
 
-      return params.session;
+      return true;
     },
   },
   adapter: MongoDBAdapter(clientPromise),

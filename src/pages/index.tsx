@@ -1,22 +1,38 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "@/styles/Home.module.scss";
-import { signOut, useSession } from "next-auth/react";
 import channelService, { Channel } from "@/services/channelService";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { youtube_v3 } from "googleapis";
+import Paper from "@mui/material/Paper";
+import DataCard from "@/components/dataCard";
+import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
+import { SyntheticEvent, useState } from "react";
+import infoService from "@/services/infoService";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 export type HomeProps = {
-  channels: Channel[];
+  channel: youtube_v3.Schema$Channel;
+  availableGames: Game[];
 };
 
-export default function Home({ channels }: HomeProps) {
-  const { data: session, status } = useSession();
+type Game = {
+  id: string;
+  name: string;
+};
 
-  // console.log(session);
-  // TODO: see if the token in the session has our api key
+export default function Home({ channel, availableGames }: HomeProps) {
+  let [selectedGames, setSelectedGames] = useState<Game[]>([]);
+
+  const handleGamesChange = (
+    event: SyntheticEvent<Element, Event>,
+    value: Option | Option[] | null
+  ) => {
+    if (!Array.isArray(value)) return;
+
+    setSelectedGames(value);
+  };
+
   return (
     <>
       <Head>
@@ -25,12 +41,22 @@ export default function Home({ channels }: HomeProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <button onClick={() => signOut()}>Sign out</button>
-        <h1>test update</h1>
-        <h1>{channels[0].name}</h1>
-        <h1>{session?.accessToken}</h1>
-      </main>
+      <Grid container spacing={3}>
+        <Grid xs={6}>
+          <Paper elevation={1} sx={{ height: "100%", padding: 3 }}>
+            <AutocompleteSelect
+              onChange={handleGamesChange}
+              id="games-select"
+              label="Games"
+              options={availableGames}
+              value={selectedGames}
+            />
+          </Paper>
+        </Grid>
+        <Grid xs={6}>
+          <Paper elevation={1} sx={{ height: "100%", padding: 3 }}></Paper>
+        </Grid>
+      </Grid>
     </>
   );
 }
@@ -40,13 +66,14 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
 ) => {
   let session = await getServerSession(context.req, context.res, authOptions);
 
-  // console.log(session);
+  let channel = await channelService.getChannel(session?.account);
 
-  let channels = await channelService.getChannels(10);
+  let availableGames = await infoService.getAvailableGames();
 
   return {
     props: {
-      channels,
+      channel,
+      availableGames: JSON.parse(JSON.stringify(availableGames)),
     },
   };
 };
