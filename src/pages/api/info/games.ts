@@ -13,7 +13,7 @@ export default async function handler(
     if (!session) return res.status(401);
 
     const channels = await infoService.getAvailableGames();
-    setTimeout(() => res.status(200).json(channels), 2000);
+    res.status(200).json(channels);
   } else {
     res.status(405);
   }
