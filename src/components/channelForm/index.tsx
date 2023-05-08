@@ -7,6 +7,9 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs, { Dayjs } from "dayjs";
 
 type Game = {
   id: string;
@@ -16,12 +19,17 @@ type Game = {
 const ChannelForm = () => {
   let [selectedGames, setSelectedGames] = useState<Game[]>([]);
   let [availableGames, setAvailableGames] = useState<AvailableGame[]>([]);
+  const [time, setTime] = useState<Dayjs | null>(dayjs("2022-04-17T15:30"));
 
   useEffect(() => {
     fetch("/api/info/games")
       .then((res) => res.json())
       .then((data) => setAvailableGames(data));
   }, []);
+
+  useEffect(() => {
+    console.log(time);
+  }, [time]);
 
   const handleGamesChange = (
     _: SyntheticEvent<Element, Event>,
@@ -67,6 +75,14 @@ const ChannelForm = () => {
                 </InputAdornment>
               ),
             }}
+          />
+        </Grid>
+        <Grid xs={6}>
+          <TimePicker
+            label="Upload time"
+            value={time}
+            sx={{ width: "100%" }}
+            onChange={(newValue) => setTime(newValue)}
           />
         </Grid>
       </Grid>

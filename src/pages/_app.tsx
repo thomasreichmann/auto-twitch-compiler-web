@@ -1,19 +1,15 @@
 import Layout from "@/components/layout";
 import "@/styles/globals.scss";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { NextPage } from "next";
-import { Session, getServerSession } from "next-auth";
+import { Session } from "next-auth";
 import { SessionProvider, getSession } from "next-auth/react";
 import type { AppContext, AppProps } from "next/app";
 import NextApp from "next/app";
 import { Router as router, useRouter } from "next/router";
-import {
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useState,
-} from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const darkTheme = createTheme({
   palette: {
@@ -37,14 +33,14 @@ function App({
 }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? Layout;
 
-  // console.log(session);
-
   return (
     <SessionProvider session={session}>
       <ThemeProvider theme={darkTheme}>
-        <AuthGuard session={session}>
-          <>{getLayout(<Component {...pageProps} />)}</>
-        </AuthGuard>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <AuthGuard session={session}>
+            <>{getLayout(<Component {...pageProps} />)}</>
+          </AuthGuard>
+        </LocalizationProvider>
       </ThemeProvider>
     </SessionProvider>
   );

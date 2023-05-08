@@ -73,7 +73,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
             options,
             params
           );
-          console.log(filtered.length);
+
           if (filtered.length >= MAX_RESULTS) {
             let arr = [
               ...filtered
@@ -83,7 +83,6 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
                 .slice(MAX_RESULTS - 1)
                 .map((option) => ({ ...option, group: "hidden" })),
             ];
-            console.log(arr);
             return arr;
           }
           return filtered;
