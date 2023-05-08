@@ -34,20 +34,39 @@ type AutocompleteSelectProps = Omit<
 
 const AutocompleteSelect = (props: AutocompleteSelectProps) => {
   const theme = useTheme();
-  const boxRef = useRef(null);
-  const growRef = useRef(null);
+  const growRef = useRef<HTMLElement | null>(null);
 
   const [boxHeight, setBoxHeight] = useState(0);
 
   useEffect(() => {
     if (!growRef.current) return; // wait for the elementRef to be available
     const resizeObserver = new ResizeObserver(() => {
-      let height = (growRef.current as any).clientHeight as any;
+      if (!growRef.current) return;
+      let height = growRef.current.clientHeight;
       setBoxHeight(height);
     });
     resizeObserver.observe(growRef.current);
-    return () => resizeObserver.disconnect(); // clean up
+    return () => {
+      if (growRef.current) resizeObserver.unobserve(growRef.current);
+      resizeObserver.disconnect();
+    }; // clean up
   }, []);
+
+  const renderGroup = (params: AutocompleteRenderGroupParams) => {
+    const isLastGroup = params.group === "hidden";
+    return (
+      <React.Fragment key={params.key}>
+        {params.children}
+        {isLastGroup && (
+          <Paper sx={{ padding: 1, margin: 1 }}>
+            <Typography textAlign="center" variant="body1">
+              Limiting to {MAX_RESULTS} results. Search for more options.
+            </Typography>
+          </Paper>
+        )}
+      </React.Fragment>
+    );
+  };
 
   return (
     <Box
@@ -58,7 +77,6 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
           easing: theme.transitions.easing.easeOut,
         }),
       }}
-      ref={boxRef}
     >
       <Autocomplete
         loading
@@ -137,22 +155,6 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         {...props}
       />
     </Box>
-  );
-};
-
-const renderGroup = (params: AutocompleteRenderGroupParams) => {
-  const isLastGroup = params.group === "hidden";
-  return (
-    <React.Fragment key={params.key}>
-      {params.children}
-      {isLastGroup && (
-        <Paper sx={{ padding: 1, margin: 1 }}>
-          <Typography textAlign="center" variant="body1">
-            Limiting to {MAX_RESULTS} results. Search for more options.
-          </Typography>
-        </Paper>
-      )}
-    </React.Fragment>
   );
 };
 
