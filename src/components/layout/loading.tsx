@@ -1,7 +1,6 @@
-import { SxProps } from "@mui/material";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import React from "react";
+import { SxProps } from "@mui/material/styles";
 
 const boxSx: SxProps = {
   display: "flex",
@@ -10,9 +9,13 @@ const boxSx: SxProps = {
   paddingTop: "2em",
 };
 
-const Loading = () => {
+type LoadingProps = {
+  sx?: SxProps;
+};
+
+const Loading = (props: LoadingProps) => {
   return (
-    <Box sx={boxSx}>
+    <Box sx={{ ...boxSx, ...props.sx }}>
       <CircularProgress />
     </Box>
   );

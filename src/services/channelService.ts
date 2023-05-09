@@ -1,36 +1,16 @@
-import { googleClient } from "@/lib/googleClient";
-import { google } from "googleapis";
 import { Account } from "next-auth";
-
-const channelService = {
-  async getChannel(account: Account) {
-    const auth = googleClient.getAuth(account);
-
-    const youtube = google.youtube({ version: "v3", auth });
-
-    let channels = await youtube.channels.list({
-      part: ["snippet"],
-      maxResults: 1,
-      mine: true,
-    });
-
-    if (!channels.data.items) throw Error(`No channel found for user`);
-
-    return channels.data.items[0];
-  },
-};
+import infoService, { AvailableGame } from "./infoService";
 
 export type Channel = {
-  id: number;
-  name: string;
-  subscribers: number;
+  games: AvailableGame[];
+  date: string;
 };
 
-export type User = {
-  id: number;
-  firstName: string;
-  age: number;
-  height: number;
+const channelService = {
+  async getChannel(account: Account): Promise<Channel> {
+    let availableGames = await infoService.getAvailableGames();
+    return { date: new Date().toJSON(), games: availableGames.splice(0, 5) };
+  },
 };
 
 export default channelService;
