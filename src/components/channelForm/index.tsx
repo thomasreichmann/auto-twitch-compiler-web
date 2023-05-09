@@ -74,7 +74,7 @@ const ChannelForm = () => {
     >
       <Grid container>
         <Grid xs={12} md={6}>
-          <Backdrop open={false} sx={{ position: "absolute", zIndex: 1 }}>
+          <Backdrop open={loading} sx={{ position: "absolute", zIndex: 1 }}>
             <Loading sx={{ alignItems: "center" }} />
             {/* TODO: make this only show on loading, make it darker, and try to make this a generic "loading backdrop" */}
             {/* TODO: also, I think think this component is in the wrong place, it should be right bellow Paper */}
