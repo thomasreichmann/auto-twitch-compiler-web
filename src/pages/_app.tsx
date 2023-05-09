@@ -11,6 +11,13 @@ import { Router as router, useRouter } from "next/router";
 import { ReactElement, ReactNode, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -36,7 +43,10 @@ function App({
   return (
     <SessionProvider session={session}>
       <ThemeProvider theme={darkTheme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider
+          dateAdapter={AdapterDayjs}
+          dateLibInstance={dayjs}
+        >
           <AuthGuard session={session}>
             <>{getLayout(<Component {...pageProps} />)}</>
           </AuthGuard>
