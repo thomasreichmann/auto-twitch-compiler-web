@@ -10,6 +10,9 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs, { Dayjs } from "dayjs";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 type Game = {
   id: string;
@@ -17,19 +20,21 @@ type Game = {
 };
 
 const ChannelForm = () => {
-  let [selectedGames, setSelectedGames] = useState<Game[]>([]);
-  let [availableGames, setAvailableGames] = useState<AvailableGame[]>([]);
-  const [time, setTime] = useState<Dayjs | null>(dayjs("2022-04-17T15:30"));
+  const [selectedGames, setSelectedGames] = useState<Game[]>([]);
+  const [availableGames, setAvailableGames] = useState<AvailableGame[]>([]);
+  const [time, setTime] = useState<Dayjs | null>(dayjs().tz());
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/info/games")
       .then((res) => res.json())
-      .then((data) => setAvailableGames(data));
+      .then((data) => setAvailableGames(data))
+      .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    console.log(time);
-  }, [time]);
+  useEffect(() => {}, []);
 
   const handleGamesChange = (
     _: SyntheticEvent<Element, Event>,

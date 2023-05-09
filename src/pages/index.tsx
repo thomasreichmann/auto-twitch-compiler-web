@@ -1,22 +1,19 @@
 import Head from "next/head";
-import channelService, { Channel } from "@/services/channelService";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { youtube_v3 } from "googleapis";
 import Paper from "@mui/material/Paper";
-import DataCard from "@/components/dataCard";
-import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
-import { SyntheticEvent, useEffect, useState } from "react";
-import infoService, { AvailableGame } from "@/services/infoService";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import ChannelForm from "@/components/channelForm";
+import dayjs from "dayjs";
 
 export type HomeProps = {
-  channel: youtube_v3.Schema$Channel;
+  channel?: youtube_v3.Schema$Channel;
+  date?: string;
 };
 
-export default function Home({ channel }: HomeProps) {
+export default function Home(props: HomeProps) {
   return (
     <>
       <Head>
@@ -43,14 +40,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   let session = await getServerSession(context.req, context.res, authOptions);
   if (!session) throw new Error("No session found");
 
-  let channel = await channelService.getChannel(session?.account);
-
-  let availableGames = await infoService.getAvailableGames();
-
   return {
-    props: {
-      channel,
-      availableGames: JSON.parse(JSON.stringify(availableGames)),
-    },
+    props: {},
   };
 };
