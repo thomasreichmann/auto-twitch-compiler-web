@@ -2,7 +2,7 @@ import clientPromise from "@/lib/mongodb";
 import accountRepository from "@/repo/accountRepository";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   // Configure one or more authentication providers
@@ -52,7 +52,6 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/login",
   },
-  debug: false,
 };
 
 export default NextAuth(authOptions);
