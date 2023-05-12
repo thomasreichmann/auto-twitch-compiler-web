@@ -1,19 +1,9 @@
-import Head from "next/head";
-import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
-import { youtube_v3 } from "googleapis";
+import ChannelForm from "@/components/channelForm";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-import ChannelForm from "@/components/channelForm";
-import dayjs from "dayjs";
+import Head from "next/head";
 
-export type HomeProps = {
-  channel?: youtube_v3.Schema$Channel;
-  date?: string;
-};
-
-export default function Home(props: HomeProps) {
+export default function Home() {
   return (
     <>
       <Head>
@@ -33,14 +23,3 @@ export default function Home(props: HomeProps) {
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  context
-) => {
-  let session = await getServerSession(context.req, context.res, authOptions);
-  if (!session) throw new Error("No session found");
-
-  return {
-    props: {},
-  };
-};
