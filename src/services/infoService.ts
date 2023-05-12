@@ -14,9 +14,9 @@ export type AvailableGame = {
 
 export type Language = {
   _id: ObjectId;
-  code: String;
-  name: String;
-  native: String;
+  code: string;
+  name: string;
+  native: string;
 };
 
 const infoService = {

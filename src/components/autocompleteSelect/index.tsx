@@ -1,20 +1,20 @@
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import { Typography } from "@mui/material";
 import Autocomplete, {
   AutocompleteProps,
   AutocompleteRenderGroupParams,
   createFilterOptions,
 } from "@mui/material/Autocomplete";
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import Paper from "@mui/material/Paper";
-import CircularProgress from "@mui/material/CircularProgress";
-import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import CircularProgress from "@mui/material/CircularProgress";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import { useTheme } from "@mui/material/styles";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import React, { useEffect, useRef, useState } from "react";
 
 export type Option = {
   id: string;

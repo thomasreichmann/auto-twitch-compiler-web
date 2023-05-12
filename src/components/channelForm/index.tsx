@@ -1,6 +1,8 @@
 import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
 import { useAvailableGames } from "@/hooks/useAvailableGames";
 import { useChannelData } from "@/hooks/useChannelData";
+import { useLanguages } from "@/hooks/useLanguages";
+import { Language } from "@/services/infoService";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from "@mui/material/IconButton";
@@ -13,21 +15,32 @@ import Loading from "../layout/loading";
 
 const ChannelForm = () => {
   const { availableGames, loading: loadingGames } = useAvailableGames();
+  const { languages, loading: loadingLanguages } = useLanguages();
   const {
     selectedGames,
     setSelectedGames,
     time,
     setTime,
+    selectedLanguages,
+    setSelectedLanguages,
     loading: loadingChannel,
   } = useChannelData();
 
-  const loading = loadingChannel || loadingGames;
+  const loading = loadingChannel || loadingGames || loadingLanguages;
 
   const handleGamesChange = (_: any, value: Option | Option[] | null) => {
     if (!Array.isArray(value)) return;
 
     setSelectedGames(value);
   };
+
+  const handleLanguagesChange = (_: any, value: Option | Option[] | null) => {
+    if (!Array.isArray(value)) return;
+
+    setSelectedLanguages(value as unknown as Language[]);
+  };
+
+  console.log(selectedLanguages);
 
   return (
     <Paper
@@ -80,6 +93,17 @@ const ChannelForm = () => {
             value={time}
             sx={{ width: "100%" }}
             onChange={(newValue) => setTime(newValue)}
+          />
+        </Grid>
+        <Grid xs={6}>
+          <AutocompleteSelect
+            id="language-select"
+            label="languages"
+            placeholder="Languages"
+            limitTags={1}
+            onChange={handleLanguagesChange}
+            options={languages}
+            value={selectedLanguages as unknown as Option[]}
           />
         </Grid>
       </Grid>
