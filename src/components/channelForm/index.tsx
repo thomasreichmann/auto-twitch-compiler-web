@@ -1,8 +1,7 @@
 import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
 import { useAvailableGames } from "@/hooks/useAvailableGames";
 import { useChannelData } from "@/hooks/useChannelData";
-import { useLanguages } from "@/hooks/useLanguages";
-import { Language } from "@/services/infoService";
+import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from "@mui/material/IconButton";
@@ -34,13 +33,18 @@ const ChannelForm = () => {
     setSelectedGames(value);
   };
 
-  const handleLanguagesChange = (_: any, value: Option | Option[] | null) => {
+  const handleLanguagesChange = (
+    _: any,
+    value: OptionLanguage | OptionLanguage[] | null
+  ) => {
     if (!Array.isArray(value)) return;
 
-    setSelectedLanguages(value as unknown as Language[]);
+    // console.log(value, selectedLanguages);
+
+    setSelectedLanguages(value);
   };
 
-  console.log(selectedLanguages);
+  // console.log(selectedLanguages);
 
   return (
     <Paper
@@ -96,14 +100,23 @@ const ChannelForm = () => {
           />
         </Grid>
         <Grid xs={6}>
-          <AutocompleteSelect
+          <AutocompleteSelect<OptionLanguage>
             id="language-select"
             label="languages"
             placeholder="Languages"
             limitTags={1}
             onChange={handleLanguagesChange}
             options={languages}
-            value={selectedLanguages as unknown as Option[]}
+            value={(() => {
+              let sel = selectedLanguages.map((lang) => {
+                let opLang: OptionLanguage = { ...lang, id: lang.code };
+                return opLang;
+              });
+
+              console.log(sel);
+
+              return sel;
+            })()}
           />
         </Grid>
       </Grid>

@@ -27,12 +27,16 @@ const MAX_RESULTS = 50;
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-type AutocompleteSelectProps = Omit<
-  AutocompleteProps<Option, boolean, boolean, false> & { label?: string },
+type AtProps<T extends Option> = Omit<
+  AutocompleteProps<T, boolean, boolean, false> & { label?: string },
   "renderInput"
 >;
 
-const AutocompleteSelect = (props: AutocompleteSelectProps) => {
+type SelectAutocompleteProps<T extends Option> = AtProps<T>;
+
+const AutocompleteSelect = <T extends Option>(
+  props: SelectAutocompleteProps<T>
+) => {
   const theme = useTheme();
   const growRef = useRef<HTMLElement | null>(null);
 
@@ -87,7 +91,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         PaperComponent={(props) => <Paper {...props} elevation={2} />}
         getOptionLabel={(option) => option.name}
         filterOptions={(options, params) => {
-          const filtered = createFilterOptions<Option>({ limit: MAX_RESULTS })(
+          const filtered = createFilterOptions<T>({ limit: MAX_RESULTS })(
             options,
             params
           );
