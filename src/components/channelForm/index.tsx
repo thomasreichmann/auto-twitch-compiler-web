@@ -44,8 +44,6 @@ const ChannelForm = () => {
     setSelectedLanguages(value);
   };
 
-  // console.log(selectedLanguages);
-
   return (
     <Paper
       elevation={1}

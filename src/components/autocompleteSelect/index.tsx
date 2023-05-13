@@ -58,7 +58,6 @@ const AutocompleteSelect = <T extends Option>(
 
   let optionsSelected: T[] = [];
 
-  console.log(props.value && Array.isArray(props.value));
   if (props.value && Array.isArray(props.value)) {
     for (const val of props.value) {
       for (const option of props.options) {
