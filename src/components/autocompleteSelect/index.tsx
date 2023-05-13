@@ -58,6 +58,7 @@ const AutocompleteSelect = <T extends Option>(
 
   const renderGroup = (params: AutocompleteRenderGroupParams) => {
     const isLastGroup = params.group === "hidden";
+    console.log(params);
     return (
       <React.Fragment key={params.key}>
         {params.children}
@@ -91,19 +92,22 @@ const AutocompleteSelect = <T extends Option>(
         PaperComponent={(props) => <Paper {...props} elevation={2} />}
         getOptionLabel={(option) => option.name}
         filterOptions={(options, params) => {
+          console.log(options, params);
           const filtered = createFilterOptions<T>({ limit: MAX_RESULTS })(
             options,
             params
           );
 
-          if (filtered.length >= MAX_RESULTS) {
+          if (filtered.length > MAX_RESULTS) {
             let arr = [
-              ...filtered
-                .slice(0, MAX_RESULTS)
-                .map((option) => ({ ...option, group: "visible" })),
-              ...filtered
-                .slice(MAX_RESULTS - 1)
-                .map((option) => ({ ...option, group: "hidden" })),
+              ...filtered.slice(0, MAX_RESULTS).map((option) => {
+                option.group = "visible";
+                return option;
+              }),
+              ...filtered.slice(MAX_RESULTS - 1).map((option) => {
+                option.group = "hidden";
+                return option;
+              }),
             ];
             return arr;
           }
