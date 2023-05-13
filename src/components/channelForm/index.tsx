@@ -1,6 +1,7 @@
 import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
-import { Channel } from "@/services/channelService";
-import { AvailableGame } from "@/services/infoService";
+import { useAvailableGames } from "@/hooks/useAvailableGames";
+import { useChannelData } from "@/hooks/useChannelData";
+import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from "@mui/material/IconButton";
@@ -9,63 +10,41 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import dayjs, { Dayjs } from "dayjs";
-import { SyntheticEvent, useEffect, useState } from "react";
 import Loading from "../layout/loading";
 
-type Game = {
-  id: string;
-  name: string;
-};
-
-// const StyledPaper = withStyles({
-//   root: {
-//     height: 200,
-//     position: "relative",
-//   },
-// })(Paper);
-// const LimitedBackdrop = withStyles({
-//   root: {
-//     position: "absolute",
-//     zIndex: 1,
-//   },
-// })(Backdrop);
-
 const ChannelForm = () => {
-  const [selectedGames, setSelectedGames] = useState<Game[]>([]);
-  const [availableGames, setAvailableGames] = useState<AvailableGame[]>([]);
-  const [time, setTime] = useState<Dayjs | null>(null);
+  const { availableGames, loading: loadingGames } = useAvailableGames();
+  const { languages, loading: loadingLanguages } = useLanguages();
+  const {
+    selectedGames,
+    setSelectedGames,
+    time,
+    setTime,
+    selectedLanguages,
+    setSelectedLanguages,
+    loading: loadingChannel,
+  } = useChannelData();
 
-  const [loading, setLoading] = useState(false);
+  const loading = loadingChannel || loadingGames || loadingLanguages;
 
-  useEffect(() => {
-    setLoading(true);
-    fetch("/api/info/games")
-      .then((res) => res.json())
-      .then((data) => setAvailableGames(data))
-      .finally(() => setLoading(false));
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("/api/channel")
-      .then((res) => res.json())
-      .then((data) => {
-        let channel = data as Channel;
-        setSelectedGames(channel.games);
-        setTime(dayjs(channel.date));
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  const handleGamesChange = (
-    _: SyntheticEvent<Element, Event>,
-    value: Option | Option[] | null
-  ) => {
+  const handleGamesChange = (_: any, value: Option | Option[] | null) => {
     if (!Array.isArray(value)) return;
 
     setSelectedGames(value);
   };
+
+  const handleLanguagesChange = (
+    _: any,
+    value: OptionLanguage | OptionLanguage[] | null
+  ) => {
+    if (!Array.isArray(value)) return;
+
+    // console.log(value, selectedLanguages);
+
+    setSelectedLanguages(value);
+  };
+
+  // console.log(selectedLanguages);
 
   return (
     <Paper
@@ -118,6 +97,24 @@ const ChannelForm = () => {
             value={time}
             sx={{ width: "100%" }}
             onChange={(newValue) => setTime(newValue)}
+          />
+        </Grid>
+        <Grid xs={6}>
+          <AutocompleteSelect<OptionLanguage>
+            id="language-select"
+            label="languages"
+            placeholder="Languages"
+            limitTags={1}
+            onChange={handleLanguagesChange}
+            options={languages}
+            value={(() => {
+              let sel = selectedLanguages.map((lang) => {
+                let opLang: OptionLanguage = { ...lang, id: lang.code };
+                return opLang;
+              });
+
+              return sel;
+            })()}
           />
         </Grid>
       </Grid>

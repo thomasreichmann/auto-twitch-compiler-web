@@ -2,18 +2,18 @@ import Layout from "@/components/layout";
 import "@/styles/globals.scss";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { NextPage } from "next";
 import { Session } from "next-auth";
 import { SessionProvider, getSession } from "next-auth/react";
 import type { AppContext, AppProps } from "next/app";
 import NextApp from "next/app";
-import { Router as router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { ReactElement, ReactNode, useEffect } from "react";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -59,8 +59,6 @@ function App({
 App.getInitialProps = async (context: AppContext) => {
   let ctx = await NextApp.getInitialProps(context);
   let session = await getSession(context.ctx);
-
-  // console.log(session);
 
   return { session, ...ctx };
 };

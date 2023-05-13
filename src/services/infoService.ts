@@ -1,7 +1,8 @@
-import { MongoId, getCollection } from "@/lib/repo";
+import { getCollection } from "@/lib/repo";
 import { ObjectId } from "mongodb";
 
 const GAMES = "games";
+const LANGUAGES = "languages";
 
 export type AvailableGame = {
   _id: ObjectId;
@@ -11,14 +12,28 @@ export type AvailableGame = {
   igdb_id: string;
 };
 
+export type Language = {
+  _id: ObjectId;
+  code: string;
+  name: string;
+  native: string;
+};
+
 const infoService = {
   async getAvailableGames(): Promise<AvailableGame[]> {
     let collection = await getCollection<AvailableGame>(GAMES);
 
     let games = collection.find();
-    let arr = await games.toArray();
 
-    return arr;
+    return games.toArray();
+  },
+
+  async getLanguages(): Promise<Language[]> {
+    let collection = await getCollection<Language>(LANGUAGES);
+
+    let languages = collection.find();
+
+    return languages.toArray();
   },
 };
 

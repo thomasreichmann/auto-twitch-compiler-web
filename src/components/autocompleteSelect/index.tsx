@@ -1,20 +1,20 @@
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import { Typography } from "@mui/material";
 import Autocomplete, {
   AutocompleteProps,
   AutocompleteRenderGroupParams,
   createFilterOptions,
 } from "@mui/material/Autocomplete";
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import Paper from "@mui/material/Paper";
-import CircularProgress from "@mui/material/CircularProgress";
-import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import CircularProgress from "@mui/material/CircularProgress";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import { useTheme } from "@mui/material/styles";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import React, { useEffect, useRef, useState } from "react";
 
 export type Option = {
   id: string;
@@ -27,12 +27,16 @@ const MAX_RESULTS = 50;
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-type AutocompleteSelectProps = Omit<
-  AutocompleteProps<Option, boolean, boolean, false> & { label?: string },
+type AtProps<T extends Option> = Omit<
+  AutocompleteProps<T, boolean, boolean, false> & { label?: string },
   "renderInput"
 >;
 
-const AutocompleteSelect = (props: AutocompleteSelectProps) => {
+type SelectAutocompleteProps<T extends Option> = AtProps<T>;
+
+const AutocompleteSelect = <T extends Option>(
+  props: SelectAutocompleteProps<T>
+) => {
   const theme = useTheme();
   const growRef = useRef<HTMLElement | null>(null);
 
@@ -51,6 +55,17 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
       resizeObserver.disconnect();
     }; // clean up
   }, []);
+
+  let optionsSelected: T[] = [];
+
+  console.log(props.value && Array.isArray(props.value));
+  if (props.value && Array.isArray(props.value)) {
+    for (const val of props.value) {
+      for (const option of props.options) {
+        if (val.id == option.id) optionsSelected?.push(option);
+      }
+    }
+  }
 
   const renderGroup = (params: AutocompleteRenderGroupParams) => {
     const isLastGroup = params.group === "hidden";
@@ -87,19 +102,21 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         PaperComponent={(props) => <Paper {...props} elevation={2} />}
         getOptionLabel={(option) => option.name}
         filterOptions={(options, params) => {
-          const filtered = createFilterOptions<Option>({ limit: MAX_RESULTS })(
+          const filtered = createFilterOptions<T>({ limit: MAX_RESULTS })(
             options,
             params
           );
 
-          if (filtered.length >= MAX_RESULTS) {
+          if (filtered.length > MAX_RESULTS) {
             let arr = [
-              ...filtered
-                .slice(0, MAX_RESULTS)
-                .map((option) => ({ ...option, group: "visible" })),
-              ...filtered
-                .slice(MAX_RESULTS - 1)
-                .map((option) => ({ ...option, group: "hidden" })),
+              ...filtered.slice(0, MAX_RESULTS).map((option) => {
+                option.group = "visible";
+                return option;
+              }),
+              ...filtered.slice(MAX_RESULTS - 1).map((option) => {
+                option.group = "hidden";
+                return option;
+              }),
             ];
             return arr;
           }
@@ -153,6 +170,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
           />
         )}
         {...props}
+        value={optionsSelected}
       />
     </Box>
   );
