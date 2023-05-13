@@ -113,8 +113,6 @@ const ChannelForm = () => {
                 return opLang;
               });
 
-              console.log(sel);
-
               return sel;
             })()}
           />

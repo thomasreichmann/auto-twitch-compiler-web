@@ -56,9 +56,19 @@ const AutocompleteSelect = <T extends Option>(
     }; // clean up
   }, []);
 
+  let optionsSelected: T[] = [];
+
+  console.log(props.value && Array.isArray(props.value));
+  if (props.value && Array.isArray(props.value)) {
+    for (const val of props.value) {
+      for (const option of props.options) {
+        if (val.id == option.id) optionsSelected?.push(option);
+      }
+    }
+  }
+
   const renderGroup = (params: AutocompleteRenderGroupParams) => {
     const isLastGroup = params.group === "hidden";
-    console.log(params);
     return (
       <React.Fragment key={params.key}>
         {params.children}
@@ -92,7 +102,6 @@ const AutocompleteSelect = <T extends Option>(
         PaperComponent={(props) => <Paper {...props} elevation={2} />}
         getOptionLabel={(option) => option.name}
         filterOptions={(options, params) => {
-          console.log(options, params);
           const filtered = createFilterOptions<T>({ limit: MAX_RESULTS })(
             options,
             params
@@ -161,6 +170,7 @@ const AutocompleteSelect = <T extends Option>(
           />
         )}
         {...props}
+        value={optionsSelected}
       />
     </Box>
   );
