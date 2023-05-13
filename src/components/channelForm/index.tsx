@@ -93,7 +93,17 @@ const ChannelForm = () => {
           />
         </Grid>
         <Grid xs>
-          {/* <TextField type="number" label="Number of videos" value={} /> */}
+          <TextField
+            type="number"
+            label="Number of videos"
+            value={channel?.videoAmount || ""}
+            onChange={(event) =>
+              setChannel({
+                ...channel!,
+                videoAmount: parseInt(event.target.value),
+              })
+            }
+          />
         </Grid>
         <Grid xs={6}>
           <AutocompleteSelect<OptionLanguage>
