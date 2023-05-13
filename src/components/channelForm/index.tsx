@@ -2,7 +2,7 @@ import AutocompleteSelect from "@/components/autocompleteSelect";
 import { useAvailableGames } from "@/hooks/useAvailableGames";
 import { useChannel } from "@/hooks/useChannelData";
 import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
-import { AvailableGame } from "@/services/infoService";
+import { AvailableGame, Language } from "@/services/infoService";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from "@mui/material/IconButton";
@@ -21,29 +21,17 @@ const ChannelForm = () => {
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
 
-  const handleGamesChange = (
-    _: any,
-    value: AvailableGame | AvailableGame[] | null
-  ) => {
-    if (!Array.isArray(value) || !channel) return;
+  const createHandler =
+    <T extends any>(field: string, transform: (value: T) => any = (v) => v) =>
+    (_: any, value: T | T[] | null) => {
+      if (!value || !channel) return;
 
-    setChannel({ ...channel, games: value });
-  };
+      const transformedValue = Array.isArray(value)
+        ? value.map((v) => transform(v))
+        : transform(value);
 
-  const handleLanguagesChange = (
-    _: any,
-    value: OptionLanguage | OptionLanguage[] | null
-  ) => {
-    if (!Array.isArray(value) || !channel) return;
-
-    setChannel({ ...channel, languages: value });
-  };
-
-  const handleTimeChange = (value: Dayjs | null) => {
-    if (!value || !channel) return;
-
-    setChannel({ ...channel, date: value.toJSON() });
-  };
+      setChannel({ ...channel, [field]: transformedValue });
+    };
 
   return (
     <Paper
@@ -58,7 +46,7 @@ const ChannelForm = () => {
             {/* TODO: also, I think think this component is in the wrong place, it should be right bellow Paper */}
           </Backdrop>
           <AutocompleteSelect<AvailableGame>
-            onChange={handleGamesChange}
+            onChange={createHandler<AvailableGame>("games")}
             id="games-select"
             label="Games"
             placeholder="Games"
@@ -95,7 +83,13 @@ const ChannelForm = () => {
             label="Upload time"
             value={dayjs(channel?.date)}
             sx={{ width: "100%" }}
-            onChange={handleTimeChange}
+            ampm={false}
+            onChange={(val) =>
+              createHandler<Dayjs>("time", (value: Dayjs) => val?.toJSON())(
+                null,
+                val
+              )
+            }
           />
         </Grid>
         <Grid xs>
@@ -107,7 +101,7 @@ const ChannelForm = () => {
             label="languages"
             placeholder="Languages"
             limitTags={1}
-            onChange={handleLanguagesChange}
+            onChange={createHandler<Language>("languages")}
             options={languages}
             value={(() => {
               if (!channel) return [];
