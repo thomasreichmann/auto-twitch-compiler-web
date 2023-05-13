@@ -1,6 +1,4 @@
 import { Channel } from "@/services/channelService";
-import { Language } from "@/services/infoService";
-import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 
 export type Game = {
@@ -8,11 +6,10 @@ export type Game = {
   name: string;
 };
 
-export const useChannelData = () => {
-  const [selectedGames, setSelectedGames] = useState<Game[]>([]);
-  const [time, setTime] = useState<Dayjs | null>(null);
+export const useChannel = () => {
+  const [channel, setChannel] = useState<Channel | null>(null);
+  const [initialChannel, setInitialChannel] = useState<Channel | null>(null);
   const [loading, setLoading] = useState(false);
-  const [selectedLanguages, setSelectedLanguages] = useState<Language[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -20,19 +17,16 @@ export const useChannelData = () => {
       .then((res) => res.json())
       .then((data) => {
         let channel = data as Channel;
-        setSelectedGames(channel.games);
-        setTime(dayjs(channel.date));
+        setChannel(channel);
+        setInitialChannel(channel);
       })
       .finally(() => setLoading(false));
   }, []);
 
   return {
-    selectedGames,
-    setSelectedGames,
-    time,
-    setTime,
-    selectedLanguages,
-    setSelectedLanguages,
+    channel,
+    setChannel,
+    initialChannel,
     loading,
   };
 };

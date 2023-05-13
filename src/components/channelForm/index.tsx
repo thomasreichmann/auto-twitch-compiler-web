@@ -1,7 +1,8 @@
-import AutocompleteSelect, { Option } from "@/components/autocompleteSelect";
+import AutocompleteSelect from "@/components/autocompleteSelect";
 import { useAvailableGames } from "@/hooks/useAvailableGames";
-import { useChannelData } from "@/hooks/useChannelData";
+import { useChannel } from "@/hooks/useChannelData";
 import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
+import { AvailableGame } from "@/services/infoService";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from "@mui/material/IconButton";
@@ -10,38 +11,38 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs, { Dayjs } from "dayjs";
 import Loading from "../layout/loading";
 
 const ChannelForm = () => {
   const { availableGames, loading: loadingGames } = useAvailableGames();
   const { languages, loading: loadingLanguages } = useLanguages();
-  const {
-    selectedGames,
-    setSelectedGames,
-    time,
-    setTime,
-    selectedLanguages,
-    setSelectedLanguages,
-    loading: loadingChannel,
-  } = useChannelData();
+  const { channel, setChannel, loading: loadingChannel } = useChannel();
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
 
-  const handleGamesChange = (_: any, value: Option | Option[] | null) => {
-    if (!Array.isArray(value)) return;
+  const handleGamesChange = (
+    _: any,
+    value: AvailableGame | AvailableGame[] | null
+  ) => {
+    if (!Array.isArray(value) || !channel) return;
 
-    setSelectedGames(value);
+    setChannel({ ...channel, games: value });
   };
 
   const handleLanguagesChange = (
     _: any,
     value: OptionLanguage | OptionLanguage[] | null
   ) => {
-    if (!Array.isArray(value)) return;
+    if (!Array.isArray(value) || !channel) return;
 
-    // console.log(value, selectedLanguages);
+    setChannel({ ...channel, languages: value });
+  };
 
-    setSelectedLanguages(value);
+  const handleTimeChange = (value: Dayjs | null) => {
+    if (!value || !channel) return;
+
+    setChannel({ ...channel, date: value.toJSON() });
   };
 
   return (
@@ -56,14 +57,14 @@ const ChannelForm = () => {
             {/* TODO: make this only show on loading, make it darker, and try to make this a generic "loading backdrop" */}
             {/* TODO: also, I think think this component is in the wrong place, it should be right bellow Paper */}
           </Backdrop>
-          <AutocompleteSelect
+          <AutocompleteSelect<AvailableGame>
             onChange={handleGamesChange}
             id="games-select"
             label="Games"
             placeholder="Games"
             limitTags={1}
             options={availableGames}
-            value={selectedGames}
+            value={channel?.games}
           />
         </Grid>
         <Grid xs={12} md={6}>
@@ -89,13 +90,16 @@ const ChannelForm = () => {
             }}
           />
         </Grid>
-        <Grid xs={6}>
+        <Grid xs>
           <TimePicker
             label="Upload time"
-            value={time}
+            value={dayjs(channel?.date)}
             sx={{ width: "100%" }}
-            onChange={(newValue) => setTime(newValue)}
+            onChange={handleTimeChange}
           />
+        </Grid>
+        <Grid xs>
+          {/* <TextField type="number" label="Number of videos" value={} /> */}
         </Grid>
         <Grid xs={6}>
           <AutocompleteSelect<OptionLanguage>
@@ -106,12 +110,11 @@ const ChannelForm = () => {
             onChange={handleLanguagesChange}
             options={languages}
             value={(() => {
-              let sel = selectedLanguages.map((lang) => {
-                let opLang: OptionLanguage = { ...lang, id: lang.code };
-                return opLang;
+              if (!channel) return [];
+              return channel?.languages.map((lang) => {
+                let optionLang: OptionLanguage = { ...lang, id: lang.code };
+                return optionLang;
               });
-
-              return sel;
             })()}
           />
         </Grid>
