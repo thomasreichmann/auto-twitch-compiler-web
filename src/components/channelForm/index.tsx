@@ -142,13 +142,22 @@ const ChannelForm = () => {
           <Collapse
             in={JSON.stringify(channel) != JSON.stringify(initialChannel)}
           >
-            <Alert severity="warning">
+            <Alert
+              severity="warning"
+              action={
+                <>
+                  <Button color="inherit" size="small" sx={{ marginRight: 2 }}>
+                    Undo
+                  </Button>
+                  <Button color="success" size="small" variant="outlined">
+                    Save
+                  </Button>
+                </>
+              }
+            >
               You have unsaved changes to the channel configuration!
             </Alert>
           </Collapse>
-        </Grid>
-        <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button>Save</Button>
         </Grid>
       </Grid>
     </Paper>
