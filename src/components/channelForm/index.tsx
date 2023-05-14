@@ -125,7 +125,7 @@ const ChannelForm = () => {
         <Grid xs={6}>
           <AutocompleteSelect<OptionLanguage>
             id="language-select"
-            label="languages"
+            label="Languages"
             placeholder="Languages"
             limitTags={1}
             onChange={createHandler<OptionLanguage>(
