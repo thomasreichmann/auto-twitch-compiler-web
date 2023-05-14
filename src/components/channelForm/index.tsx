@@ -2,7 +2,7 @@ import AutocompleteSelect from "@/components/autocompleteSelect";
 import { useAvailableGames } from "@/hooks/useAvailableGames";
 import { useChannel } from "@/hooks/useChannelData";
 import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
-import { Channel } from "@/services/channelService";
+import { Channel } from "@/repo/channelRepository";
 import { AvailableGame } from "@/services/infoService";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Alert from "@mui/material/Alert";
@@ -27,6 +27,7 @@ const ChannelForm = () => {
     loading: loadingChannel,
     modified,
     restoreChannel,
+    saveChannel,
   } = useChannel();
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
@@ -155,7 +156,12 @@ const ChannelForm = () => {
                   >
                     Undo
                   </Button>
-                  <Button color="success" size="small" variant="outlined">
+                  <Button
+                    color="success"
+                    size="small"
+                    variant="outlined"
+                    onClick={() => saveChannel()}
+                  >
                     Save
                   </Button>
                 </>

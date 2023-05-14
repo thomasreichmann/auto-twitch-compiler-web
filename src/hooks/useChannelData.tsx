@@ -1,10 +1,5 @@
-import { Channel } from "@/services/channelService";
+import { Channel } from "@/repo/channelRepository";
 import { useEffect, useState } from "react";
-
-export type Game = {
-  id: string;
-  name: string;
-};
 
 export const useChannel = () => {
   const [channel, setChannel] = useState<Channel | null>(null);
@@ -23,6 +18,19 @@ export const useChannel = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const saveChannel = (onSave?: () => void) => {
+    setLoading(true);
+    fetch("/api/channel", { method: "PUT", body: JSON.stringify(channel) })
+      .then((res) => res.json().catch((err) => console.log(err)))
+      .then((data) => {
+        let updatedChannel = data as Channel;
+        setChannel({ ...updatedChannel });
+
+        if (onSave) onSave(); // Figure out if this should be called from here or finally
+      })
+      .finally(() => setLoading(false));
+  };
+
   const restoreChannel = () => {
     if (!channel || !initialChannel) return;
 
@@ -38,5 +46,6 @@ export const useChannel = () => {
     loading,
     modified,
     restoreChannel,
+    saveChannel,
   };
 };

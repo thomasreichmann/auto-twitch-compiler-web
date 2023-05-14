@@ -1,25 +1,23 @@
+import channelRepository, { Channel } from "@/repo/channelRepository";
+import { ObjectId } from "mongodb";
 import { Account } from "next-auth";
-import infoService, { AvailableGame, Language } from "./infoService";
-
-export type Channel = {
-  games: AvailableGame[];
-  date: string;
-  languages: Language[];
-  videoAmount: number;
-  titleTemplate: string;
-};
 
 const channelService = {
   async getChannel(account: Account): Promise<Channel> {
-    let availableGames = await infoService.getAvailableGames();
-    let languages = await infoService.getLanguages();
-    return {
-      date: new Date().toJSON(),
-      games: availableGames.splice(0, 5),
-      languages: languages.splice(14, 3),
-      videoAmount: 2,
-      titleTemplate: "",
-    };
+    let channel = await channelRepository.findByUserId(account.userId ?? "");
+
+    // If we found the user's channel, return it
+    if (channel) return channel;
+
+    // If the user doesn't have a channel, create one.
+    channel = channelRepository.getDefaultChannel();
+    channel.userId = new ObjectId(account.userId);
+
+    return channelRepository.save(channel);
+  },
+
+  async saveChannel(channel: Channel): Promise<Channel> {
+    return channelRepository.save(channel);
   },
 };
 
