@@ -20,7 +20,7 @@ const TitleTemplateModal = (props: TitleTemplateModalProps) => {
         </Typography>
         <br />
         <Typography>
-          {"{0}"} - list with the name of the first 4 clip's creators
+          &#123;0&#125; - list with the name of the first 4 clip's creators
         </Typography>
       </DialogContent>
     </Dialog>
