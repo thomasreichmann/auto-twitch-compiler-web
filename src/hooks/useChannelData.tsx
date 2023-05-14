@@ -1,4 +1,5 @@
 import { Channel } from "@/services/channelService";
+import { isEqual } from "lodash";
 import { useEffect, useState } from "react";
 
 export type Game = {
@@ -23,10 +24,13 @@ export const useChannel = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const modified = isEqual(channel, initialChannel);
+
   return {
     channel,
     setChannel,
     initialChannel,
     loading,
+    modified,
   };
 };

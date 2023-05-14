@@ -2,9 +2,13 @@ import AutocompleteSelect from "@/components/autocompleteSelect";
 import { useAvailableGames } from "@/hooks/useAvailableGames";
 import { useChannel } from "@/hooks/useChannelData";
 import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
+import { Channel } from "@/services/channelService";
 import { AvailableGame, Language } from "@/services/infoService";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Alert from "@mui/material/Alert";
 import Backdrop from "@mui/material/Backdrop";
+import Button from "@mui/material/Button";
+import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Paper from "@mui/material/Paper";
@@ -17,17 +21,26 @@ import Loading from "../layout/loading";
 const ChannelForm = () => {
   const { availableGames, loading: loadingGames } = useAvailableGames();
   const { languages, loading: loadingLanguages } = useLanguages();
-  const { channel, setChannel, loading: loadingChannel } = useChannel();
+  const {
+    channel,
+    setChannel,
+    loading: loadingChannel,
+    modified,
+    initialChannel,
+  } = useChannel();
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
 
   const createHandler =
-    <T extends any>(field: string, transform: (value: T) => any = (v) => v) =>
+    <T extends any>(
+      field: keyof Channel,
+      transform: (value: T) => any = (v) => v
+    ) =>
     (_: any, value: T | T[] | null) => {
       if (!value || !channel) return;
 
       const transformedValue = Array.isArray(value)
-        ? value.map((v) => transform(v))
+        ? value.map((v) => transform(v)).sort((a, b) => a - b)
         : transform(value);
 
       setChannel({ ...channel, [field]: transformedValue });
@@ -78,21 +91,21 @@ const ChannelForm = () => {
             }}
           />
         </Grid>
-        <Grid xs>
+        <Grid xs={3}>
           <TimePicker
             label="Upload time"
             value={dayjs(channel?.date)}
             sx={{ width: "100%" }}
             ampm={false}
             onChange={(val) =>
-              createHandler<Dayjs>("time", (value: Dayjs) => val?.toJSON())(
+              createHandler<Dayjs>("date", (value: Dayjs) => val?.toJSON())(
                 null,
                 val
               )
             }
           />
         </Grid>
-        <Grid xs>
+        <Grid xs={3}>
           <TextField
             type="number"
             label="Number of videos"
@@ -111,7 +124,20 @@ const ChannelForm = () => {
             label="languages"
             placeholder="Languages"
             limitTags={1}
-            onChange={createHandler<Language>("languages")}
+            onChange={(
+              _: any,
+              val: OptionLanguage | OptionLanguage[] | null
+            ) => {
+              if (!Array.isArray(val)) return;
+
+              let langs: Language[] = val.map((a) => {
+                let { id, ...b } = a;
+
+                return b;
+              });
+
+              createHandler<Language>("languages")(null, langs);
+            }}
             options={languages}
             value={(() => {
               if (!channel) return [];
@@ -121,6 +147,18 @@ const ChannelForm = () => {
               });
             })()}
           />
+        </Grid>
+        <Grid xs>
+          <Collapse
+            in={JSON.stringify(channel) != JSON.stringify(initialChannel)}
+          >
+            <Alert severity="warning">
+              You have unsaved changes to the channel configuration!
+            </Alert>
+          </Collapse>
+        </Grid>
+        <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button>Save</Button>
         </Grid>
       </Grid>
     </Paper>
