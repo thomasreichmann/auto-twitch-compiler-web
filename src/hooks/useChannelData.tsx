@@ -1,5 +1,4 @@
 import { Channel } from "@/services/channelService";
-import { isEqual } from "lodash";
 import { useEffect, useState } from "react";
 
 export type Game = {
@@ -24,7 +23,13 @@ export const useChannel = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const modified = isEqual(channel, initialChannel);
+  const restoreChannel = () => {
+    if (!channel || !initialChannel) return;
+
+    setChannel({ ...initialChannel });
+  };
+
+  const modified = JSON.stringify(channel) != JSON.stringify(initialChannel);
 
   return {
     channel,
@@ -32,5 +37,6 @@ export const useChannel = () => {
     initialChannel,
     loading,
     modified,
+    restoreChannel,
   };
 };

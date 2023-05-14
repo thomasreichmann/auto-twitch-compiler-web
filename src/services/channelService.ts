@@ -6,6 +6,7 @@ export type Channel = {
   date: string;
   languages: Language[];
   videoAmount: number;
+  titleTemplate: string;
 };
 
 const channelService = {
@@ -17,6 +18,7 @@ const channelService = {
       games: availableGames.splice(0, 5),
       languages: languages.splice(14, 3),
       videoAmount: 2,
+      titleTemplate: "",
     };
   },
 };

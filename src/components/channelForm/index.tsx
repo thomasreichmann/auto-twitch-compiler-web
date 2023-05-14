@@ -26,7 +26,7 @@ const ChannelForm = () => {
     setChannel,
     loading: loadingChannel,
     modified,
-    initialChannel,
+    restoreChannel,
   } = useChannel();
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
@@ -74,6 +74,9 @@ const ChannelForm = () => {
             fullWidth
             label="Title Template"
             helperText="*required"
+            onChange={(event) =>
+              setChannel({ ...channel!, titleTemplate: event.target.value })
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -139,14 +142,17 @@ const ChannelForm = () => {
           />
         </Grid>
         <Grid xs>
-          <Collapse
-            in={JSON.stringify(channel) != JSON.stringify(initialChannel)}
-          >
+          <Collapse in={modified}>
             <Alert
               severity="warning"
               action={
                 <>
-                  <Button color="inherit" size="small" sx={{ marginRight: 2 }}>
+                  <Button
+                    color="inherit"
+                    size="small"
+                    sx={{ marginRight: 2 }}
+                    onClick={restoreChannel}
+                  >
                     Undo
                   </Button>
                   <Button color="success" size="small" variant="outlined">
