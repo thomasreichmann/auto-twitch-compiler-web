@@ -15,12 +15,12 @@ const TitleTemplateModal = (props: TitleTemplateModalProps) => {
       <DialogContent>
         <Typography>
           This field determines how the video title is going to be created,
-          where the "&#123;x&#125;" will be replaced with some dynamic info from
-          the video. The available fields are:
+          where the &quot;&#123;x&#125;&quot; will be replaced with some dynamic
+          info from the video. The available fields are:
         </Typography>
         <br />
         <Typography>
-          &#123;0&#125; - list with the name of the first 4 clip's creators
+          &#123;0&#125; - list with the name of the first 4 clip&apos;s creators
         </Typography>
       </DialogContent>
     </Dialog>
