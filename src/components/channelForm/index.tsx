@@ -57,6 +57,7 @@ const ChannelForm = () => {
     enqueueSnackbar("Channel saved successfully", {
       variant: "success",
       autoHideDuration: 2500,
+      style: { fontFamily: "sans-serif" },
     });
   };
 
@@ -83,10 +84,6 @@ const ChannelForm = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <TitleTemplateModal
-            open={templateModalOpen}
-            handleClose={() => setTemplateModalOpen(false)}
-          />
           <TextField
             required
             fullWidth
@@ -109,6 +106,10 @@ const ChannelForm = () => {
                 </InputAdornment>
               ),
             }}
+          />
+          <TitleTemplateModal
+            open={templateModalOpen}
+            handleClose={() => setTemplateModalOpen(false)}
           />
         </Grid>
         <Grid xs={3}>
