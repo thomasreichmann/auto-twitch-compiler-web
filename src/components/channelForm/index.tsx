@@ -3,7 +3,7 @@ import { useAvailableGames } from "@/hooks/useAvailableGames";
 import { useChannel } from "@/hooks/useChannelData";
 import { OptionLanguage, useLanguages } from "@/hooks/useLanguages";
 import { Channel } from "@/services/channelService";
-import { AvailableGame, Language } from "@/services/infoService";
+import { AvailableGame } from "@/services/infoService";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Alert from "@mui/material/Alert";
 import Backdrop from "@mui/material/Backdrop";
@@ -124,20 +124,10 @@ const ChannelForm = () => {
             label="languages"
             placeholder="Languages"
             limitTags={1}
-            onChange={(
-              _: any,
-              val: OptionLanguage | OptionLanguage[] | null
-            ) => {
-              if (!Array.isArray(val)) return;
-
-              let langs: Language[] = val.map((a) => {
-                let { id, ...b } = a;
-
-                return b;
-              });
-
-              createHandler<Language>("languages")(null, langs);
-            }}
+            onChange={createHandler<OptionLanguage>(
+              "languages",
+              ({ id, ...language }) => language
+            )}
             options={languages}
             value={(() => {
               if (!channel) return [];
