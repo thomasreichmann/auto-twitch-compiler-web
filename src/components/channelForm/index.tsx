@@ -87,6 +87,7 @@ const ChannelForm = () => {
             onChange={(event) =>
               setChannel({ ...channel!, titleTemplate: event.target.value })
             }
+            value={channel?.titleTemplate ?? ""}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
