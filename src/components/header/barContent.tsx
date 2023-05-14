@@ -1,16 +1,9 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { signOut, useSession } from "next-auth/react";
-import React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import { signOut, useSession } from "next-auth/react";
 
 export type BarContentProps = {
   onDrawerClick: () => void;
@@ -22,7 +15,7 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
 
   return (
     <>
-      <IconButton
+      {/* <IconButton
         size="large"
         edge="start"
         color="inherit"
@@ -31,8 +24,12 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
         onClick={onDrawerClick}
       >
         <MenuIcon />
-      </IconButton>
-
+      </IconButton> */}
+      <Avatar
+        alt="channel-avatar"
+        src={session?.user?.image ?? ""}
+        sx={{ marginRight: 2 }}
+      ></Avatar>
       <Grid
         container
         columnSpacing={2}

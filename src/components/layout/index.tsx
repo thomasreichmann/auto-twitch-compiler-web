@@ -1,18 +1,17 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import Header from "../header";
-import DrawerContent from "./drawerContent";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import Divider from "@mui/material/Divider";
-import { useRouter } from "next/router";
-import Loading from "./loading";
-import { AppBar, DrawerHeader, Main, drawerSx } from "./layout.styles";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
-import { DRAWER_WIDTH } from "./layout.styles";
+import { useRouter } from "next/router";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
+import Header from "../header";
+import DrawerContent from "./drawerContent";
+import { AppBar, DrawerHeader, Main, drawerSx } from "./layout.styles";
+import Loading from "./loading";
 
 const Layout = (page: ReactElement): ReactNode => {
   const [open, setOpen] = useState(false);
