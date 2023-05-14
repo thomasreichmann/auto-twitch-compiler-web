@@ -17,7 +17,9 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import Loading from "../layout/loading";
+import TitleTemplateModal from "./titleTemplateModal";
 
 const ChannelForm = () => {
   const { availableGames, loading: loadingGames } = useAvailableGames();
@@ -31,6 +33,8 @@ const ChannelForm = () => {
     restoreChannel,
     saveChannel,
   } = useChannel();
+
+  const [templateModalOpen, setTemplateModalOpen] = useState(false);
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
 
@@ -79,6 +83,10 @@ const ChannelForm = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
+          <TitleTemplateModal
+            open={templateModalOpen}
+            handleClose={() => setTemplateModalOpen(false)}
+          />
           <TextField
             required
             fullWidth
@@ -92,10 +100,8 @@ const ChannelForm = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    // aria-label="toggle password visibility"
-                    // onClick={handleClickShowPassword}
-                    // onMouseDown={handleMouseDownPassword}
-                    // TODO: modal with info on how the tittle template works
+                    aria-label="toggle password visibility"
+                    onClick={() => setTemplateModalOpen(true)}
                     edge="end"
                   >
                     <HelpOutlineIcon />

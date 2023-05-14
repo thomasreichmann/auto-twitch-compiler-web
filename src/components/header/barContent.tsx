@@ -29,7 +29,7 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
         alt="channel-avatar"
         src={session?.user?.image ?? ""}
         sx={{ marginRight: 2 }}
-      ></Avatar>
+      />
       <Grid
         container
         columnSpacing={2}
