@@ -40,6 +40,18 @@ class ChannelRepository {
 
   async save(channel: Channel): Promise<Channel> {
     const collection = await getCollection<Channel>(CHANNELS);
+
+    channel._id = new ObjectId(channel._id);
+    channel.userId = new ObjectId(channel.userId);
+    channel.games = channel.games.map((game) => ({
+      ...game,
+      _id: new ObjectId(game._id),
+    }));
+    channel.languages = channel.languages.map((language) => ({
+      ...language,
+      _id: new ObjectId(language._id),
+    }));
+
     const result = await collection.replaceOne({ _id: channel._id }, channel, {
       upsert: true,
     });
