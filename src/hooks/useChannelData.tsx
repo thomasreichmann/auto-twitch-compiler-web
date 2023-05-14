@@ -5,6 +5,7 @@ export const useChannel = () => {
   const [channel, setChannel] = useState<Channel | null>(null);
   const [initialChannel, setInitialChannel] = useState<Channel | null>(null);
   const [loading, setLoading] = useState(false);
+  const [modified, setModified] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -18,6 +19,10 @@ export const useChannel = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    setModified(JSON.stringify(channel) != JSON.stringify(initialChannel));
+  }, [channel]);
+
   const saveChannel = (onSave?: () => void) => {
     setLoading(true);
     fetch("/api/channel", { method: "PUT", body: JSON.stringify(channel) })
@@ -25,6 +30,8 @@ export const useChannel = () => {
       .then((data) => {
         let updatedChannel = data as Channel;
         setChannel({ ...updatedChannel });
+        setInitialChannel({ ...updatedChannel });
+        setModified(false);
 
         if (onSave) onSave(); // Figure out if this should be called from here or finally
       })
@@ -36,8 +43,6 @@ export const useChannel = () => {
 
     setChannel({ ...initialChannel });
   };
-
-  const modified = JSON.stringify(channel) != JSON.stringify(initialChannel);
 
   return {
     channel,
