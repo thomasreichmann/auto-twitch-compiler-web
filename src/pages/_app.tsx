@@ -9,6 +9,7 @@ import { SessionProvider, getSession } from "next-auth/react";
 import type { AppContext, AppProps } from "next/app";
 import NextApp from "next/app";
 import { useRouter } from "next/router";
+import { SnackbarProvider } from "notistack";
 import { ReactElement, ReactNode, useEffect } from "react";
 
 import dayjs from "dayjs";
@@ -47,9 +48,11 @@ function App({
           dateAdapter={AdapterDayjs}
           dateLibInstance={dayjs}
         >
-          <AuthGuard session={session}>
-            <>{getLayout(<Component {...pageProps} />)}</>
-          </AuthGuard>
+          <SnackbarProvider>
+            <AuthGuard session={session}>
+              <>{getLayout(<Component {...pageProps} />)}</>
+            </AuthGuard>
+          </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>
     </SessionProvider>
