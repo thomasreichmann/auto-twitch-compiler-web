@@ -16,11 +16,13 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs, { Dayjs } from "dayjs";
+import { useSnackbar } from "notistack";
 import Loading from "../layout/loading";
 
 const ChannelForm = () => {
   const { availableGames, loading: loadingGames } = useAvailableGames();
   const { languages, loading: loadingLanguages } = useLanguages();
+  const { enqueueSnackbar } = useSnackbar();
   const {
     channel,
     setChannel,
@@ -46,6 +48,13 @@ const ChannelForm = () => {
 
       setChannel({ ...channel, [field]: transformedValue });
     };
+
+  const onSaveChannel = () => {
+    enqueueSnackbar("Channel saved successfully", {
+      variant: "success",
+      autoHideDuration: 2500,
+    });
+  };
 
   return (
     <Paper
@@ -160,7 +169,7 @@ const ChannelForm = () => {
                     color="success"
                     size="small"
                     variant="outlined"
-                    onClick={() => saveChannel()}
+                    onClick={() => saveChannel(onSaveChannel)}
                   >
                     Save
                   </Button>
