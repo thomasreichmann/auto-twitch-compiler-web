@@ -25,24 +25,14 @@ const ChannelForm = () => {
   const { availableGames, loading: loadingGames } = useAvailableGames();
   const { languages, loading: loadingLanguages } = useLanguages();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    channel,
-    setChannel,
-    loading: loadingChannel,
-    modified,
-    restoreChannel,
-    saveChannel,
-  } = useChannel();
+  const { channel, setChannel, loading: loadingChannel, modified, restoreChannel, saveChannel } = useChannel();
 
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
 
   const loading = loadingChannel || loadingGames || loadingLanguages;
 
   const createHandler =
-    <T extends any>(
-      field: keyof Channel,
-      transform: (value: T) => any = (v) => v
-    ) =>
+    <T extends any>(field: keyof Channel, transform: (value: T) => any = (v) => v) =>
     (_: any, value: T | T[] | null) => {
       if (!value || !channel) return;
 
@@ -62,10 +52,7 @@ const ChannelForm = () => {
   };
 
   return (
-    <Paper
-      elevation={1}
-      sx={{ height: "100%", padding: 3, position: "relative" }}
-    >
+    <Paper elevation={1} sx={{ height: "100%", padding: 3, position: "relative" }}>
       <Grid container>
         <Grid xs={12} md={6}>
           <Backdrop open={loading} sx={{ position: "absolute", zIndex: 1 }}>
@@ -89,15 +76,13 @@ const ChannelForm = () => {
             fullWidth
             label="Title Template"
             helperText="*required"
-            onChange={(event) =>
-              setChannel({ ...channel!, titleTemplate: event.target.value })
-            }
+            onChange={(event) => setChannel({ ...channel!, titleTemplate: event.target.value })}
             value={channel?.titleTemplate ?? ""}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label="toggle password visibility"
+                    aria-label="see title template help"
                     onClick={() => setTemplateModalOpen(true)}
                     edge="end"
                   >
@@ -107,10 +92,7 @@ const ChannelForm = () => {
               ),
             }}
           />
-          <TitleTemplateModal
-            open={templateModalOpen}
-            handleClose={() => setTemplateModalOpen(false)}
-          />
+          <TitleTemplateModal open={templateModalOpen} handleClose={() => setTemplateModalOpen(false)} />
         </Grid>
         <Grid xs={3}>
           <TimePicker
@@ -118,12 +100,7 @@ const ChannelForm = () => {
             value={dayjs(channel?.date)}
             sx={{ width: "100%" }}
             ampm={false}
-            onChange={(val) =>
-              createHandler<Dayjs>("date", (value: Dayjs) => val?.toJSON())(
-                null,
-                val
-              )
-            }
+            onChange={(val) => createHandler<Dayjs>("date", (value: Dayjs) => val?.toJSON())(null, val)}
           />
         </Grid>
         <Grid xs={3}>
@@ -145,10 +122,7 @@ const ChannelForm = () => {
             label="Languages"
             placeholder="Languages"
             limitTags={1}
-            onChange={createHandler<OptionLanguage>(
-              "languages",
-              ({ id, ...language }) => language
-            )}
+            onChange={createHandler<OptionLanguage>("languages", ({ id, ...language }) => language)}
             options={languages}
             value={(() => {
               if (!channel) return [];
@@ -165,20 +139,10 @@ const ChannelForm = () => {
               severity="warning"
               action={
                 <>
-                  <Button
-                    color="inherit"
-                    size="small"
-                    sx={{ marginRight: 2 }}
-                    onClick={restoreChannel}
-                  >
+                  <Button color="inherit" size="small" sx={{ marginRight: 2 }} onClick={restoreChannel}>
                     Undo
                   </Button>
-                  <Button
-                    color="success"
-                    size="small"
-                    variant="outlined"
-                    onClick={() => saveChannel(onSaveChannel)}
-                  >
+                  <Button color="success" size="small" variant="outlined" onClick={() => saveChannel(onSaveChannel)}>
                     Save
                   </Button>
                 </>
