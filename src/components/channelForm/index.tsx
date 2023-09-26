@@ -53,7 +53,7 @@ const ChannelForm = () => {
 
   return (
     <Paper elevation={1} sx={{ height: "100%", padding: 3, position: "relative" }}>
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <Backdrop open={loading} sx={{ position: "absolute", zIndex: 1 }}>
             <Loading sx={{ alignItems: "center" }} />
@@ -133,7 +133,7 @@ const ChannelForm = () => {
             })()}
           />
         </Grid>
-        <Grid xs>
+        <Grid xs={12}>
           <Collapse in={modified}>
             <Alert
               severity="warning"

@@ -1,6 +1,6 @@
 import clientPromise from "@/lib/mongodb";
 import accountRepository from "@/repo/accountRepository";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -45,7 +45,8 @@ export const authOptions: AuthOptions = {
       return true;
     },
   },
-  adapter: MongoDBAdapter(clientPromise),
+  // "as any" because we don't need to .connect() and get the promise anymore, mongo handles that automatically
+  adapter: MongoDBAdapter(clientPromise as any),
   session: {
     strategy: "database",
   },
