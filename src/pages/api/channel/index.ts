@@ -1,21 +1,19 @@
+import { auth } from "@/lib/auth";
 import { Channel } from "@/repo/channelRepository";
 import channelService from "@/services/channelService";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Channel | string>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Channel | string>) {
   if (req.method == "GET") {
-    const session = await getServerSession(req, res, authOptions);
+    const session = await auth(req, res);
     if (!session) return res.status(401);
 
-    const channel = await channelService.getChannel(session.account);
+    console.log(session);
+
+    const channel = await channelService.getChannel(session.user.id);
     res.status(200).json(channel);
   } else if (req.method == "PUT") {
-    const session = await getServerSession(req, res, authOptions);
+    const session = await auth(req, res);
     if (!session) return res.status(401);
 
     try {

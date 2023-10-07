@@ -24,11 +24,7 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async session({ session, user }) {
-      let account = await accountRepository.findByUserId(user.id);
-
-      if (!account) throw Error(`no account for user: ${user}`);
-
-      session.account = account;
+      session.user.id = user.id;
       return session;
     },
     async signIn({ account, user }) {

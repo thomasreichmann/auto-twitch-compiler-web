@@ -1,10 +1,13 @@
 import { CreateScheduleValidationError } from "@/errors";
+import { auth } from "@/lib/auth";
 import AwsService from "@/services/awsService";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const awsService = new AwsService();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await auth(req, res);
+  console.log(session);
   const body = JSON.parse(req.body);
 
   try {
