@@ -1,5 +1,5 @@
 import ChannelForm from "@/components/channelForm";
-import Paper from "@mui/material/Paper";
+import ChannelInfo from "@/components/channelInfo";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Head from "next/head";
 
@@ -17,7 +17,7 @@ export default function Home() {
           <ChannelForm />
         </Grid>
         <Grid xs={12} sm={6}>
-          <Paper elevation={1} sx={{ height: "100%", padding: 3 }}></Paper>
+          <ChannelInfo />
         </Grid>
       </Grid>
     </>
