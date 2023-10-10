@@ -64,11 +64,11 @@ const ChannelForm = () => {
 
   return (
     <Paper elevation={1} sx={{ height: "100%", padding: 3, position: "relative" }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         <Grid xs={2}>
           <EnableChannelSwitch value={channel?.enableUploads} onChange={createHandler<boolean>("enableUploads")} />
         </Grid>
-        <Grid xs={12} md={6}>
+        <Grid xs={10}>
           <Backdrop open={loading} sx={{ position: "absolute", zIndex: 1 }}>
             <Loading sx={{ alignItems: "center" }} />
             {/* TODO: make this only show on loading, make it darker, and try to make this a generic "loading backdrop" */}
@@ -79,12 +79,12 @@ const ChannelForm = () => {
             id="games-select"
             label="Games"
             placeholder="Games"
-            limitTags={1}
+            limitTags={3}
             options={availableGames}
             value={channel?.games}
           />
         </Grid>
-        <Grid xs={12} md={4}>
+        <Grid xs={12}>
           <TextField
             required
             fullWidth
@@ -108,7 +108,24 @@ const ChannelForm = () => {
           />
           <TitleTemplateModal open={templateModalOpen} handleClose={() => setTemplateModalOpen(false)} />
         </Grid>
-        <Grid xs={3}>
+        <Grid xs={12}>
+          <AutocompleteSelect<OptionLanguage>
+            id="language-select"
+            label="Languages"
+            placeholder="Languages"
+            limitTags={3}
+            onChange={createHandler<OptionLanguage>("languages", ({ id, ...language }) => language)}
+            options={languages}
+            value={(() => {
+              if (!channel) return [];
+              return channel?.languages.map((lang) => {
+                let optionLang: OptionLanguage = { ...lang, id: lang.code };
+                return optionLang;
+              });
+            })()}
+          />
+        </Grid>
+        <Grid xs={6}>
           <TimePicker
             label="Upload time"
             value={dayjs(channel?.date)}
@@ -117,7 +134,7 @@ const ChannelForm = () => {
             onChange={(val) => createHandler<Dayjs>("date", (value: Dayjs) => val?.toJSON())(null, val)}
           />
         </Grid>
-        <Grid xs={3}>
+        <Grid xs={6}>
           <TextField
             type="number"
             label="Number of videos"
@@ -128,23 +145,6 @@ const ChannelForm = () => {
                 videoAmount: parseInt(event.target.value),
               })
             }
-          />
-        </Grid>
-        <Grid xs={6}>
-          <AutocompleteSelect<OptionLanguage>
-            id="language-select"
-            label="Languages"
-            placeholder="Languages"
-            limitTags={1}
-            onChange={createHandler<OptionLanguage>("languages", ({ id, ...language }) => language)}
-            options={languages}
-            value={(() => {
-              if (!channel) return [];
-              return channel?.languages.map((lang) => {
-                let optionLang: OptionLanguage = { ...lang, id: lang.code };
-                return optionLang;
-              });
-            })()}
           />
         </Grid>
         <Grid xs={12}>
