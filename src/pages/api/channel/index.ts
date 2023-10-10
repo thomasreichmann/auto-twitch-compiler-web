@@ -8,8 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const session = await auth(req, res);
     if (!session) return res.status(401);
 
-    console.log(session);
-
     const channel = await channelService.getChannel(session.user.id);
     res.status(200).json(channel);
   } else if (req.method == "PUT") {

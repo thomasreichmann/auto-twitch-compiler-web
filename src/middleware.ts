@@ -9,10 +9,7 @@ export async function middleware(request: NextRequest) {
   This doesn't guarantee that the user is logged in, but it will resolve most
   of the times where unauthenticated content would flash before redirecting to /login
   */
-  if (
-    request.cookies.get("next-auth.session-token") ||
-    request.cookies.get("__Secure-next-auth.session-token")
-  ) {
+  if (request.cookies.get("next-auth.session-token") || request.cookies.get("__Secure-next-auth.session-token")) {
     return res;
   } else {
     const url = new URL(`/login`, request.url);

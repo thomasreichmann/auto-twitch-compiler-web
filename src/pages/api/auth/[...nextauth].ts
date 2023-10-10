@@ -16,8 +16,6 @@ export const authOptions: AuthOptions = {
           scope:
             "https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube",
           access_type: "offline",
-          prompt: "consent",
-          response_type: "code",
         },
       },
     }),
