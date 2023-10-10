@@ -43,12 +43,22 @@ const ChannelForm = () => {
       setChannel({ ...channel, [field]: transformedValue });
     };
 
-  const onSaveChannel = () => {
-    enqueueSnackbar("Channel saved successfully", {
-      variant: "success",
-      autoHideDuration: 2500,
-      style: { fontFamily: "sans-serif" },
-    });
+  const onSaveChannel = (err?: Error) => {
+    console.log(`on save channel: ${err}`);
+    if (err) {
+      enqueueSnackbar(`Failed to save channel: ${err.message}`, {
+        variant: "error",
+        autoHideDuration: 3500,
+        style: { fontFamily: "sans-serif" },
+      });
+      restoreChannel();
+    } else {
+      enqueueSnackbar("Channel saved successfully", {
+        variant: "success",
+        autoHideDuration: 2500,
+        style: { fontFamily: "sans-serif" },
+      });
+    }
   };
 
   return (

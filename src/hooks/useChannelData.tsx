@@ -23,18 +23,23 @@ export const useChannel = () => {
     setModified(JSON.stringify(channel) != JSON.stringify(initialChannel));
   }, [channel]);
 
-  const saveChannel = (onSave?: () => void) => {
+  const saveChannel = (onSave: (err?: Error) => void = () => {}) => {
     setLoading(true);
     fetch("/api/channel", { method: "PUT", body: JSON.stringify(channel) })
-      .then((res) => res.json().catch((err) => console.log(err)))
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+
+        return res.json();
+      })
       .then((data) => {
         let updatedChannel = data as Channel;
         setChannel({ ...updatedChannel });
         setInitialChannel({ ...updatedChannel });
         setModified(false);
 
-        if (onSave) onSave(); // Figure out if this should be called from here or finally
+        onSave();
       })
+      .catch((err: Error) => onSave(err))
       .finally(() => setLoading(false));
   };
 

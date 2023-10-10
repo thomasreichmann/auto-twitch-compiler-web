@@ -1,4 +1,5 @@
 import { CreateScheduleValidationError } from "@/errors";
+import CreateScheduleRequest from "@/types/CreateScheduleRequest";
 import { InvokeCommand, Lambda } from "@aws-sdk/client-lambda";
 
 const CREATE_SCHEDULE_NAME = "CreateSchedule";
@@ -29,16 +30,4 @@ export default class AwsService {
 
     return { logs, result };
   }
-}
-
-export interface CreateScheduleRequest {
-  name: string;
-  time: ScheduleTime;
-  state: "ENABLED" | "DISABLED";
-  payload: any;
-}
-
-export interface ScheduleTime {
-  hours: string;
-  minutes: string;
 }
