@@ -125,16 +125,16 @@ const ChannelForm = () => {
             })()}
           />
         </Grid>
-        <Grid xs={6}>
+        <Grid xs="auto">
           <TimePicker
             label="Upload time"
             value={dayjs(channel?.date)}
-            sx={{ width: "100%" }}
+            // sx={{ width: "100%" }}
             ampm={false}
             onChange={(val) => createHandler<Dayjs>("date", (value: Dayjs) => val?.toJSON())(null, val)}
           />
         </Grid>
-        <Grid xs={6}>
+        <Grid xs="auto">
           <TextField
             type="number"
             label="Number of videos"
