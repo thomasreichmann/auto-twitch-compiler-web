@@ -1,6 +1,5 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { Typography } from "@mui/material";
 import Autocomplete, {
   AutocompleteProps,
   AutocompleteRenderGroupParams,
@@ -11,6 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
@@ -34,9 +34,7 @@ type AtProps<T extends Option> = Omit<
 
 type SelectAutocompleteProps<T extends Option> = AtProps<T>;
 
-const AutocompleteSelect = <T extends Option>(
-  props: SelectAutocompleteProps<T>
-) => {
+const AutocompleteSelect = <T extends Option>(props: SelectAutocompleteProps<T>) => {
   const theme = useTheme();
   const growRef = useRef<HTMLElement | null>(null);
 
@@ -101,10 +99,7 @@ const AutocompleteSelect = <T extends Option>(
         PaperComponent={(props) => <Paper {...props} elevation={2} />}
         getOptionLabel={(option) => option.name}
         filterOptions={(options, params) => {
-          const filtered = createFilterOptions<T>({ limit: MAX_RESULTS })(
-            options,
-            params
-          );
+          const filtered = createFilterOptions<T>({ limit: MAX_RESULTS })(options, params);
 
           if (filtered.length > MAX_RESULTS) {
             let arr = [
@@ -159,9 +154,7 @@ const AutocompleteSelect = <T extends Option>(
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {!props.options.length ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : null}
+                  {!props.options.length ? <CircularProgress color="inherit" size={20} /> : null}
                   {params.InputProps.endAdornment}
                 </>
               ),

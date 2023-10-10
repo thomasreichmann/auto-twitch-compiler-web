@@ -19,6 +19,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import Loading from "../layout/loading";
+import EnableChannelSwitch from "./enableChannelSwitch";
 import TitleTemplateModal from "./titleTemplateModal";
 
 const ChannelForm = () => {
@@ -33,8 +34,8 @@ const ChannelForm = () => {
 
   const createHandler =
     <T extends any>(field: keyof Channel, transform: (value: T) => any = (v) => v) =>
-    (_: any, value: T | T[] | null) => {
-      if (!value || !channel) return;
+    (_: any, value?: T | T[] | null) => {
+      if (value == null || !channel) return;
 
       const transformedValue = Array.isArray(value)
         ? value.map((v) => transform(v)).sort((a, b) => a - b)
@@ -64,6 +65,9 @@ const ChannelForm = () => {
   return (
     <Paper elevation={1} sx={{ height: "100%", padding: 3, position: "relative" }}>
       <Grid container spacing={2}>
+        <Grid xs={2}>
+          <EnableChannelSwitch value={channel?.enableUploads} onChange={createHandler<boolean>("enableUploads")} />
+        </Grid>
         <Grid xs={12} md={6}>
           <Backdrop open={loading} sx={{ position: "absolute", zIndex: 1 }}>
             <Loading sx={{ alignItems: "center" }} />
@@ -80,7 +84,7 @@ const ChannelForm = () => {
             value={channel?.games}
           />
         </Grid>
-        <Grid xs={12} md={6}>
+        <Grid xs={12} md={4}>
           <TextField
             required
             fullWidth
