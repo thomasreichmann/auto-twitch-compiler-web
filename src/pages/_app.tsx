@@ -13,6 +13,7 @@ import { ReactElement, ReactNode } from "react";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import Head from "next/head";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -40,13 +41,18 @@ function App({
   const getLayout = Component.getLayout ?? Layout;
 
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider theme={darkTheme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs}>
-          <SnackbarProvider>{getLayout(<Component {...pageProps} />)}</SnackbarProvider>
-        </LocalizationProvider>
-      </ThemeProvider>
-    </SessionProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <SessionProvider session={session}>
+        <ThemeProvider theme={darkTheme}>
+          <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs}>
+            <SnackbarProvider>{getLayout(<Component {...pageProps} />)}</SnackbarProvider>
+          </LocalizationProvider>
+        </ThemeProvider>
+      </SessionProvider>
+    </>
   );
 }
 
