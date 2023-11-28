@@ -30,9 +30,12 @@ export const authOptions: AuthOptions = {
         // Save new refresh token from signIn if we have received new refresh_token
         try {
           await accountRepository.updateAccount(user.id, account);
-        } catch (err) {
-          console.log(account, user);
-          console.error("Error while updating account on signIn", err);
+        } catch (err: any) {
+          if (err.name == "BSONError") {
+            console.warn(`User id was not valid BSON: ${user.id}`);
+          } else {
+            console.error("Error while updating account on signIn", account, user, err);
+          }
         }
       }
 

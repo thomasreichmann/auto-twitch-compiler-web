@@ -26,8 +26,6 @@ export default class AwsService {
     const result = JSON.parse(Buffer.from(response.Payload ?? "").toString());
     const logs = Buffer.from(response.LogResult ?? "", "base64").toString();
 
-    console.log(logs, result);
-
     return { logs, result };
   }
 }

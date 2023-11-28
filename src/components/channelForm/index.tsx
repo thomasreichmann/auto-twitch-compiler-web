@@ -19,7 +19,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import Loading from "../layout/loading";
-import EnableChannelSwitch from "./enableChannelSwitch";
+import ChannelSwitch from "./channelSwitch";
 import TitleTemplateModal from "./titleTemplateModal";
 
 const ChannelForm = () => {
@@ -34,7 +34,7 @@ const ChannelForm = () => {
 
   const createHandler =
     <T extends any>(field: keyof Channel, transform: (value: T) => any = (v) => v) =>
-    (_: any, value?: T | T[] | null) => {
+    (_: any, value: T | T[] | null) => {
       if (value == null || !channel) return;
 
       const transformedValue = Array.isArray(value)
@@ -45,8 +45,8 @@ const ChannelForm = () => {
     };
 
   const onSaveChannel = (err?: Error) => {
-    console.log(`on save channel: ${err}`);
     if (err) {
+      console.error(err.message, err);
       enqueueSnackbar(`Failed to save channel: ${err.message}`, {
         variant: "error",
         autoHideDuration: 3500,
@@ -65,10 +65,7 @@ const ChannelForm = () => {
   return (
     <Paper elevation={1} sx={{ height: "100%", padding: 3, position: "relative" }}>
       <Grid container spacing={3}>
-        <Grid xs={2}>
-          <EnableChannelSwitch value={channel?.enableUploads} onChange={createHandler<boolean>("enableUploads")} />
-        </Grid>
-        <Grid xs={10}>
+        <Grid xs={12}>
           <Backdrop open={loading} sx={{ position: "absolute", zIndex: 1 }}>
             <Loading sx={{ alignItems: "center" }} />
             {/* TODO: make this only show on loading, make it darker, and try to make this a generic "loading backdrop" */}
@@ -146,6 +143,16 @@ const ChannelForm = () => {
               })
             }
           />
+        </Grid>
+        <Grid xs="auto" display="flex" justifyContent="center">
+          <ChannelSwitch
+            label="Upload"
+            value={channel?.enableUploads}
+            onChange={createHandler<boolean>("enableUploads")}
+          />
+        </Grid>
+        <Grid xs="auto" display="flex" justifyContent="center">
+          <ChannelSwitch label="Private" value={channel?.private} onChange={createHandler<boolean>("private")} />
         </Grid>
         <Grid xs={12}>
           <Collapse in={modified}>

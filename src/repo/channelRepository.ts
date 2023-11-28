@@ -13,6 +13,7 @@ export type Channel = {
   languages: Language[];
   videoAmount: number;
   titleTemplate: string;
+  private: boolean;
 };
 
 class ChannelRepository {
@@ -29,6 +30,7 @@ class ChannelRepository {
       titleTemplate: "",
       userId: new ObjectId(),
       videoAmount: 0,
+      private: true,
     };
   }
 

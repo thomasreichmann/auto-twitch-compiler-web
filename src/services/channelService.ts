@@ -45,7 +45,7 @@ const channelService = {
       titleTemplate: channel.titleTemplate,
       concatenateSettings: processingSettings,
       preProcessSettings: processingSettings,
-      privacyStatus: "private",
+      privacyStatus: channel.private ? "private" : "public",
     };
   },
 };
