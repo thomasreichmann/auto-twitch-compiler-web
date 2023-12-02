@@ -26,7 +26,7 @@ const Layout = (page: ReactElement): ReactNode => {
   };
 
   return (
-    <Grid container sx={{ height: "100vh" }} direction="column">
+    <Grid container direction="column">
       <Grid xs={12}>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static" open={open}>
@@ -38,11 +38,7 @@ const Layout = (page: ReactElement): ReactNode => {
         <Drawer open={open} variant="persistent" anchor="left" sx={drawerSx}>
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
+              {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </DrawerHeader>
           <Divider />

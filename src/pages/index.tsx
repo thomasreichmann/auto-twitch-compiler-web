@@ -15,10 +15,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid container spacing={3}>
-        <Grid xs={12} sm={6}>
+        <Grid xs={12} md={6}>
           <ChannelForm />
         </Grid>
-        <Grid xs={12} sm={6}>
+        <Grid xs={12} md={6}>
           <ChannelInfo />
         </Grid>
       </Grid>

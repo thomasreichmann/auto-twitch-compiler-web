@@ -122,17 +122,18 @@ const ChannelForm = () => {
             })()}
           />
         </Grid>
-        <Grid xs="auto">
+        <Grid xs={6}>
           <TimePicker
+            sx={{ width: "100%" }}
             label="Upload time"
             value={dayjs(channel?.date)}
-            // sx={{ width: "100%" }}
             ampm={false}
             onChange={(val) => createHandler<Dayjs>("date", (value: Dayjs) => val?.toJSON())(null, val)}
           />
         </Grid>
-        <Grid xs="auto">
+        <Grid xs={6}>
           <TextField
+            sx={{ width: "100%" }}
             type="number"
             label="Number of videos"
             value={channel?.videoAmount || ""}
@@ -144,19 +145,21 @@ const ChannelForm = () => {
             }
           />
         </Grid>
-        <Grid xs="auto" display="flex" justifyContent="center">
-          <ChannelSwitch
-            label="Upload"
-            value={channel?.enableUploads ?? false}
-            onChange={createHandler<boolean>("enableUploads")}
-          />
-        </Grid>
-        <Grid xs="auto" display="flex" justifyContent="center">
-          <ChannelSwitch
-            label="Private"
-            value={channel?.private ?? false}
-            onChange={createHandler<boolean>("private")}
-          />
+        <Grid container xs={12}>
+          <Grid xs={6} display="flex" justifyContent="center">
+            <ChannelSwitch
+              label="Upload"
+              value={channel?.enableUploads ?? false}
+              onChange={createHandler<boolean>("enableUploads")}
+            />
+          </Grid>
+          <Grid xs={6} display="flex" justifyContent="center">
+            <ChannelSwitch
+              label="Private"
+              value={channel?.private ?? false}
+              onChange={createHandler<boolean>("private")}
+            />
+          </Grid>
         </Grid>
         <Grid xs={12}>
           <Collapse in={modified}>
@@ -173,7 +176,7 @@ const ChannelForm = () => {
                 </>
               }
             >
-              You have unsaved changes to the channel configuration!
+              You have unsaved changes!
             </Alert>
           </Collapse>
         </Grid>

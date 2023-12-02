@@ -25,16 +25,8 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
       >
         <MenuIcon />
       </IconButton> */}
-      <Avatar
-        alt="channel-avatar"
-        src={session?.user?.image ?? ""}
-        sx={{ marginRight: 2 }}
-      />
-      <Grid
-        container
-        columnSpacing={2}
-        sx={{ flexGrow: 1, alignItems: "center" }}
-      >
+      <Avatar alt="channel-avatar" src={session?.user?.image ?? ""} sx={{ marginRight: 2 }} />
+      <Grid container columnSpacing={2} sx={{ flexGrow: 1, alignItems: "center" }}>
         <Grid>
           <Typography variant="h6">{session?.user?.name}</Typography>
         </Grid>
