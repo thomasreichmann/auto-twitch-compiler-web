@@ -147,12 +147,16 @@ const ChannelForm = () => {
         <Grid xs="auto" display="flex" justifyContent="center">
           <ChannelSwitch
             label="Upload"
-            value={channel?.enableUploads}
+            value={channel?.enableUploads ?? false}
             onChange={createHandler<boolean>("enableUploads")}
           />
         </Grid>
         <Grid xs="auto" display="flex" justifyContent="center">
-          <ChannelSwitch label="Private" value={channel?.private} onChange={createHandler<boolean>("private")} />
+          <ChannelSwitch
+            label="Private"
+            value={channel?.private ?? false}
+            onChange={createHandler<boolean>("private")}
+          />
         </Grid>
         <Grid xs={12}>
           <Collapse in={modified}>

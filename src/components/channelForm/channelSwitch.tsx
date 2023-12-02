@@ -2,7 +2,7 @@ import FormControlLabel, { FormControlLabelProps } from "@mui/material/FormContr
 import Switch from "@mui/material/Switch";
 
 export interface ChannelSwitchProps extends Omit<FormControlLabelProps, "control"> {
-  value?: boolean;
+  value: boolean;
   onChange(e: any, val: boolean): void;
 }
 
