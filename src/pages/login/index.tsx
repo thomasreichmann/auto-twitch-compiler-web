@@ -1,18 +1,14 @@
-import { GetServerSideProps } from "next";
-import { signIn } from "next-auth/react";
-import React from "react";
-import { NextPageWithLayout } from "../_app";
+import Footer from "@/components/footer";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import { SxProps } from "@mui/system/styleFunctionSx";
-import Toolbar from "@mui/material/Toolbar";
-import Paper from "@mui/material/Paper";
-import Footer from "@/components/footer";
-import Typography from "@mui/material/Typography";
-import Image from "next/image";
-
-import logoImg from "@/../public/logo.png";
+import { GetServerSideProps } from "next";
+import { signIn } from "next-auth/react";
+import { NextPageWithLayout } from "../_app";
 
 interface LoginProps {
   callbackUrl: string;
@@ -33,12 +29,7 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
               <Typography variant="h5" sx={{ flexGrow: 1, ml: 1 }}>
                 Vid Sync
               </Typography>
-              <Button
-                variant="contained"
-                onClick={() =>
-                  signIn("google", { callbackUrl: props.callbackUrl ?? "" })
-                }
-              >
+              <Button variant="contained" onClick={() => signIn("google", { callbackUrl: props.callbackUrl ?? "" })}>
                 Login
               </Button>
             </Toolbar>
@@ -65,13 +56,9 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
             >
               Automate YouTube uploads with Twitch clips
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{ maxWidth: "360px", color: "text.disabled" }}
-            >
-              Connect your Twitch.tv account to automatically upload video clips
-              to your YouTube channel. Effortlessly manage your content with our
-              easy-to-use platform. Try it now!
+            <Typography variant="body2" sx={{ maxWidth: "360px", color: "text.disabled" }}>
+              Connect your Twitch.tv account to automatically upload video clips to your YouTube channel. Effortlessly
+              manage your content with our easy-to-use platform. Try it now!
             </Typography>
           </Box>
         </Grid>
@@ -85,9 +72,7 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
 
 Login.getLayout = (page) => page;
 
-export const getServerSideProps: GetServerSideProps<LoginProps> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<LoginProps> = async (context) => {
   let callbackUrl = context.query.callbackUrl as string | null;
 
   return {
