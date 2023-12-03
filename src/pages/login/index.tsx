@@ -73,11 +73,18 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
 Login.getLayout = (page) => page;
 
 export const getServerSideProps: GetServerSideProps<LoginProps> = async (context) => {
-  let callbackUrl = context.query.callbackUrl as string | null;
+  let callbackPath = context.query.callbackUrl as string | null; // or rename to 'callbackPath'
+
+  // If callbackPath is not null, reconstruct the full URL using the host information
+  if (callbackPath) {
+    const protocol = context.req.headers["x-forwarded-proto"] || "http";
+    const host = context.req.headers.host;
+    callbackPath = `${protocol}://${host}${callbackPath}`;
+  }
 
   return {
     props: {
-      callbackUrl: callbackUrl ?? "",
+      callbackUrl: callbackPath ?? "",
     },
   };
 };
