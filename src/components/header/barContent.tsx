@@ -1,6 +1,8 @@
+import { ExitToAppOutlined } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { signOut, useSession } from "next-auth/react";
@@ -25,7 +27,9 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
       >
         <MenuIcon />
       </IconButton> */}
-      <Avatar alt="channel-avatar" src={session?.user?.image ?? ""} sx={{ marginRight: 2 }} />
+      <Paper elevation={12} sx={{ borderRadius: "50%" }}>
+        <Avatar alt="channel-avatar" src={session?.user?.image ?? ""} sx={{ marginRight: 2 }} />
+      </Paper>
       <Grid container columnSpacing={2} sx={{ flexGrow: 1, alignItems: "center" }}>
         <Grid>
           <Typography variant="h6">{session?.user?.name}</Typography>
@@ -37,9 +41,11 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
           <Typography>{session?.user?.email}</Typography>
         </Grid>
         <Grid>
-          <Button onClick={() => signOut()} variant="contained" color="warning">
-            Sign out
-          </Button>
+          <Paper elevation={12} sx={{ borderRadius: "50%" }}>
+            <IconButton aria-label="sign out" onClick={() => signOut()}>
+              <ExitToAppOutlined />
+            </IconButton>
+          </Paper>
         </Grid>
       </Grid>
     </>
