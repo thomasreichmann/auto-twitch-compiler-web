@@ -26,4 +26,4 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Export the MongoClient. It will auto-connect on its first operation.
-export default client;
+export default client as MongoClient;
