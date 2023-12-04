@@ -10,14 +10,21 @@ export async function middleware(request: NextRequest) {
    */
   if (isLikelyAuthenticated(request)) return res;
 
-  const currentUrl = new URL(request.url);
-  const callbackPath = currentUrl.pathname + currentUrl.search;
+  try {
+    const currentUrl = new URL(request.url);
+    const callbackPath = currentUrl.pathname + currentUrl.search;
 
-  const loginUrl = new URL(`/login`, request.url);
+    const loginUrl = new URL(`/login`, request.url);
 
-  if (currentUrl.pathname != "/") loginUrl.searchParams.set("callbackUrl", encodeURI(callbackPath));
+    if (currentUrl.pathname != "/") loginUrl.searchParams.set("callbackUrl", encodeURI(callbackPath));
 
-  return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(loginUrl);
+  } catch (e) {
+    const error = e as Error;
+
+    console.error("Error when redirecting user", error.name, error.message);
+    return NextResponse.redirect("/login");
+  }
 }
 
 function isLikelyAuthenticated(request: NextRequest): boolean {

@@ -44,7 +44,7 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
               justifyContent: "center",
               alignItems: { xs: "center", sm: "start" },
               textAlign: { xs: "center", sm: "start" },
-              "& :is(h3, p):not(:first-child)": { mt: 4 },
+              "& :is(h3, p):not(:first-of-type)": { mt: 4 },
             }}
           >
             <Typography

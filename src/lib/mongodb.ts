@@ -15,9 +15,8 @@ if (process.env.NODE_ENV === "development") {
   if (!global._mongoClient) {
     console.log("Creating new MongoClient instance for development");
     global._mongoClient = new MongoClient(uri, options);
-  } else {
-    console.log("Reusing existing MongoClient instance in development");
   }
+
   client = global._mongoClient;
 } else {
   // In production mode, it's best to not use a global variable.
@@ -27,4 +26,4 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Export the MongoClient. It will auto-connect on its first operation.
-export default client;
+export default client as MongoClient;
