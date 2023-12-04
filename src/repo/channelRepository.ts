@@ -67,4 +67,6 @@ class ChannelRepository {
   }
 }
 
-export default new ChannelRepository();
+const channelRepository = new ChannelRepository();
+
+export default channelRepository;

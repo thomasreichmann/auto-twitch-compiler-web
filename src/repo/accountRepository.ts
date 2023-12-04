@@ -20,4 +20,6 @@ class AccountRepository {
   }
 }
 
-export default new AccountRepository();
+const accountRepository = new AccountRepository();
+
+export default accountRepository;

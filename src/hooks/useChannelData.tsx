@@ -21,7 +21,7 @@ export const useChannel = () => {
 
   useEffect(() => {
     setModified(JSON.stringify(channel) != JSON.stringify(initialChannel));
-  }, [channel]);
+  }, [channel, initialChannel]);
 
   const saveChannel = (onSave: (err?: Error) => void = () => {}) => {
     setLoading(true);

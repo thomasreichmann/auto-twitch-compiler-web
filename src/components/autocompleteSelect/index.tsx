@@ -41,17 +41,20 @@ const AutocompleteSelect = <T extends Option>(props: SelectAutocompleteProps<T>)
   const [boxHeight, setBoxHeight] = useState(0);
 
   useEffect(() => {
-    if (!growRef.current) return; // wait for the elementRef to be available
+    const currentRef = growRef.current;
+
+    if (!currentRef) return; // wait for the elementRef to be available
     const resizeObserver = new ResizeObserver(() => {
-      if (!growRef.current) return;
-      let height = growRef.current.clientHeight;
+      if (!currentRef) return;
+      let height = currentRef.clientHeight;
       setBoxHeight(height);
     });
-    resizeObserver.observe(growRef.current);
-    return () => {
-      if (growRef.current) resizeObserver.unobserve(growRef.current);
+    resizeObserver.observe(currentRef);
+
+    return (currentRef?: HTMLElement) => {
+      if (currentRef) resizeObserver.unobserve(currentRef);
       resizeObserver.disconnect();
-    }; // clean up
+    };
   }, []);
 
   let optionsSelected: T[] = [];
