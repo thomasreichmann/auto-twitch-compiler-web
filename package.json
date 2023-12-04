@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^2.0.0",
+    "@auth/mongodb-adapter": "^2.0.7",
     "@aws-sdk/client-lambda": "^3.425.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -18,17 +18,17 @@
     "@mui/x-date-pickers": "^6.3.1",
     "autosuggest-highlight": "^3.3.4",
     "dayjs": "^1.11.7",
-    "eslint": "8.34.0",
-    "eslint-config-next": "13.1.6",
+    "eslint": "^8.55.0",
+    "eslint-config-next": "^14.0.3",
     "googleapis": "^118.0.0",
     "mongodb": "^6.1.0",
-    "next": "^13.5.3",
-    "next-auth": "^4.20.1",
+    "next": "^14.0.3",
+    "next-auth": "^4.24.5",
     "notistack": "^3.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.58.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "devDependencies": {
     "@types/autosuggest-highlight": "^3.2.0",
