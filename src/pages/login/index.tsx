@@ -52,6 +52,7 @@ const Login: NextPageWithLayout<LoginProps> = (props: LoginProps) => {
               fontWeight="bold"
               sx={{
                 maxWidth: { xs: "95%", sm: "460px" },
+                mb: { xs: 4, sm: 0 },
               }}
             >
               Automate YouTube uploads with Twitch clips
