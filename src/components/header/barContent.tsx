@@ -38,7 +38,7 @@ export const BarContent = ({ onDrawerClick, open }: BarContentProps) => {
 
         <Divider orientation="vertical" variant={"middle"} flexItem />
 
-        <Grid xs>
+        <Grid xs sx={{ overflow: "hidden", whiteSpace: "nowrap" }}>
           <Typography>{session?.user?.email}</Typography>
         </Grid>
         <Grid>
