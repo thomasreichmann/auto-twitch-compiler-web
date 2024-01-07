@@ -32,8 +32,8 @@ export const PastUploadCard = () => {
 
       <Divider variant="middle" />
 
-      <CardActions sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-        <TextIcon>123</TextIcon>
+      <CardActions sx={{ pl: 2, display: "flex", alignItems: "center" }}>
+        <TextIcon icon={<BarChart />}>123</TextIcon>
         <IconButton aria-label="play/pause">
           <PlayArrow />
         </IconButton>

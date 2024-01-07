@@ -13,15 +13,29 @@ interface TextIconProps {
 const TextIcon = (props: TextIconProps) => {
   const { icon = <ThumbUp />, children, textPosition = "right", typographyProps } = props;
 
-  const content = (
-    <>
-      {textPosition === "left" && <Typography {...typographyProps}>{children}</Typography>}
-      {icon}
-      {textPosition === "right" && <Typography {...typographyProps}>{children}</Typography>}
-    </>
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: textPosition === "left" ? "row-reverse" : "row",
+        alignItems: "flex-end",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          marginRight: textPosition === "right" ? 1 : 0,
+          marginLeft: textPosition === "left" ? 1 : 0,
+        }}
+      >
+        {icon}
+      </Box>
+      <Typography variant="caption" {...typographyProps}>
+        {children}
+      </Typography>
+    </Box>
   );
-
-  return <Box>{content}</Box>;
 };
 
 export default TextIcon;
