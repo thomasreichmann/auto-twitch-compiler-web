@@ -40,10 +40,6 @@ export const UploadDetails = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Box>
       <Typography variant="subtitle1">
@@ -78,7 +74,7 @@ export const UploadDetails = () => {
         ))}
       </List>
 
-      <ClipModal url={selectedClipUrl} open={open} onClose={handleClose} />
+      <ClipModal url={selectedClipUrl} open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 };
