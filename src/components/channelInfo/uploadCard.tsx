@@ -30,14 +30,16 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 interface UploadCardProps {
   isPast: boolean;
+  image: string;
   title: string;
   date: string;
   views?: number;
   likes?: number;
   comments?: number;
+  details?: any; // Replace with actual type for details
 }
 
-export const UploadCard = ({ isPast, title, date, views, likes, comments }: UploadCardProps) => {
+export const UploadCard = ({ isPast, image, title, date, views, likes, comments, details }: UploadCardProps) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -47,7 +49,7 @@ export const UploadCard = ({ isPast, title, date, views, likes, comments }: Uplo
           sx={{ borderRadius: 1, width: "min-content" }}
           component="img"
           height="43"
-          image="/example-thumbnail.jpeg"
+          image={image}
           alt="thumbnail"
         />
         <Box
@@ -57,7 +59,7 @@ export const UploadCard = ({ isPast, title, date, views, likes, comments }: Uplo
           }}
         >
           <Typography component="span" variant="body1">
-            {title}
+            {isPast ? title : "Next upload based on channel settings"}
           </Typography>
           <Typography variant="caption" color="text.secondary" component="div">
             {date}
@@ -98,7 +100,7 @@ export const UploadCard = ({ isPast, title, date, views, likes, comments }: Uplo
       {expanded && <Divider variant="middle" />}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent sx={{ "&&": { pb: 1 } }}>
-          <UploadDetails />
+          {isPast ? <UploadDetails /> : <Typography variant="body2">More info coming soon...</Typography>}
         </CardContent>
       </Collapse>
     </Card>

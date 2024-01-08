@@ -18,14 +18,16 @@ const ChannelInfo = (props: Props) => {
           <UploadCard
             isPast={false}
             title="Next upload:"
-            date="Estimated Upload: Mon Jan 08 2024 04:11:35 GMT-03 (Brasilia Standard Time)"
+            date="Mon Jan 08 2024 04:11:35 GMT-03 (Brasilia Standard Time)"
+            image="/pending-thumbnail.jpeg"
           />
         </Grid>
         <Grid xs={12}>
           <UploadCard
             isPast={true}
-            date="Uploaded: Mon Jan 08 2024 04:11:35 GMT-03 (Brasilia Standard Time)"
+            date="Mon Jan 08 2024 04:11:35 GMT-03 (Brasilia Standard Time)"
             title="Best League clips of the day - loltyler1, lolmalice, ApplesloI, PekinWoof, duoking1, tych"
+            image="/example-thumbnail.jpeg"
             comments={10}
             likes={100}
             views={102}
