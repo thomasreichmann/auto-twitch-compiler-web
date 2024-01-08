@@ -1,4 +1,15 @@
-import { Link as LinkIcon, Movie, PlayCircleOutline, Timer } from "@mui/icons-material";
+import {
+  AccessTime,
+  Build,
+  CloudDownload,
+  Link as LinkIcon,
+  MergeType,
+  Movie,
+  PlayCircleOutline,
+  TextSnippet,
+  Timer,
+  YouTube,
+} from "@mui/icons-material";
 import { Box, Chip, List, ListItem, Modal, SxProps, Typography } from "@mui/material";
 import { useState } from "react";
 import { ClipEmbed } from "./clipEmbed";
@@ -35,16 +46,19 @@ export const UploadDetails = () => {
 
   return (
     <Box>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="subtitle1">
         <Timer fontSize="small" sx={iconSx} />
         Detailed Processing Time:
       </Typography>
       <ProcessingDetails processingDetails={details.processingDetails} />
 
-      <Typography variant="subtitle1" gutterBottom>
-        <PlayCircleOutline fontSize="small" sx={iconSx} />
-        Clips Fetched: {details.clipsFetched}
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
+        <Typography variant="subtitle1" gutterBottom>
+          <PlayCircleOutline fontSize="small" sx={iconSx} />
+          Clips Fetched:
+        </Typography>
+        <Typography color="text.secondary">{details.clipsFetched}</Typography>
+      </Box>
 
       <Typography variant="subtitle1" gutterBottom>
         <Movie fontSize="small" sx={iconSx} />
@@ -52,7 +66,7 @@ export const UploadDetails = () => {
       </Typography>
       <List>
         {details.clips.map((clip, index) => (
-          <ListItem key={index} sx={{ p: 0 }}>
+          <ListItem key={index} sx={{ p: 0, pl: 1.5 }}>
             <Chip
               label={<ClipLabel clip={clip} />}
               variant="outlined"
@@ -70,9 +84,17 @@ export const UploadDetails = () => {
 };
 
 const ProcessingDetails = ({ processingDetails }: { processingDetails: typeof details.processingDetails }) => {
-  const TypoListItem = ({ children }: { children: React.ReactNode }) => (
+  const TypoListItem = ({ icon, title, time }: { icon: React.ReactNode; title: string; time: number }) => (
     <ListItem>
-      <Typography variant="body2">{children}</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", width: "100%", overflow: "hidden", whiteSpace: "nowrap" }}>
+        {icon}
+        <Typography variant="body2" sx={{ ml: 1, mr: 1 }}>
+          {title}:
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: "nowrap" }}>
+          {formatTime(time)}
+        </Typography>
+      </Box>
     </ListItem>
   );
 
@@ -88,14 +110,17 @@ const ProcessingDetails = ({ processingDetails }: { processingDetails: typeof de
     }
   };
 
+  const totalTime = Object.values(processingDetails).reduce((acc, time) => acc + time, 0);
+
   return (
     <List dense>
-      <TypoListItem>Curate: {formatTime(processingDetails.curateTime)}</TypoListItem>
-      <TypoListItem>Download: {formatTime(processingDetails.downloadTime)}</TypoListItem>
-      <TypoListItem>PreProcess: {formatTime(processingDetails.preProcessTime)}</TypoListItem>
-      <TypoListItem>Concatenate: {formatTime(processingDetails.concatenateTime)}</TypoListItem>
-      <TypoListItem>Generate Metadata: {formatTime(processingDetails.generateMetadataTime)}</TypoListItem>
-      <TypoListItem>Upload to YouTube: {formatTime(processingDetails.uploadYoutubeTime)}</TypoListItem>
+      <TypoListItem icon={<AccessTime />} title="Curate" time={processingDetails.curateTime} />
+      <TypoListItem icon={<CloudDownload />} title="Download" time={processingDetails.downloadTime} />
+      <TypoListItem icon={<Build />} title="PreProcess" time={processingDetails.preProcessTime} />
+      <TypoListItem icon={<MergeType />} title="Concatenate" time={processingDetails.concatenateTime} />
+      <TypoListItem icon={<TextSnippet />} title="Generate Metadata" time={processingDetails.generateMetadataTime} />
+      <TypoListItem icon={<YouTube />} title="Upload" time={processingDetails.uploadYoutubeTime} />
+      <TypoListItem icon={<Timer />} title="Total" time={totalTime} />
     </List>
   );
 };

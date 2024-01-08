@@ -80,7 +80,7 @@ export const PastUploadCard = () => {
       {expanded && <Divider variant="middle" />}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        <CardContent sx={{ "&&": { pb: 1 } }}>
           <UploadDetails />
         </CardContent>
       </Collapse>
