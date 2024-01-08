@@ -1,7 +1,7 @@
 import { ThumbUp } from "@mui/icons-material";
 import { Typography, TypographyProps } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface TextIconProps {
   icon?: ReactNode;
@@ -25,8 +25,8 @@ const TextIcon = (props: TextIconProps) => {
         sx={{
           display: "flex",
           alignItems: "center",
-          marginRight: textPosition === "right" ? 1 : 0,
-          marginLeft: textPosition === "left" ? 1 : 0,
+          marginRight: textPosition === "right" ? 0.5 : 0,
+          marginLeft: textPosition === "left" ? 0.5 : 0,
         }}
       >
         {icon}

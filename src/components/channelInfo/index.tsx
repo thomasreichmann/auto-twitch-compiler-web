@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { PastUploadCard } from "./pastUploadCard";
@@ -19,9 +18,10 @@ const ChannelInfo = (props: Props) => {
           <PastUploadCard />
         </Grid>
         <Grid xs={6}>
-          <InfoPaper sx={{ height: "100px" }}>
-            <Button variant="contained"> test</Button>
-          </InfoPaper>
+          <PastUploadCard />
+        </Grid>
+        <Grid xs={6}>
+          <PastUploadCard />
         </Grid>
       </Grid>
     </Paper>
