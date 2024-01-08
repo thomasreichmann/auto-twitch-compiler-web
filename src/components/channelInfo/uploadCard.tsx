@@ -1,6 +1,6 @@
 import { BarChart, Comment, ThumbUp } from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Collapse, styled } from "@mui/material";
+import { Collapse, Skeleton, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -28,7 +28,16 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export const PastUploadCard = () => {
+interface UploadCardProps {
+  isPast: boolean;
+  title: string;
+  date: string;
+  views?: number;
+  likes?: number;
+  comments?: number;
+}
+
+export const UploadCard = ({ isPast, title, date, views, likes, comments }: UploadCardProps) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -39,7 +48,7 @@ export const PastUploadCard = () => {
           component="img"
           height="43"
           image="/example-thumbnail.jpeg"
-          alt="Live from space album cover"
+          alt="thumbnail"
         />
         <Box
           sx={{
@@ -48,10 +57,10 @@ export const PastUploadCard = () => {
           }}
         >
           <Typography component="span" variant="body1">
-            Best League clips of the day - loltyler1, lolmalice, ApplesloI, PekinWoof, duoking1, tych
+            {title}
           </Typography>
           <Typography variant="caption" color="text.secondary" component="div">
-            Uploaded: Mon Jan 08 2024 04:11:35 GMT-03 (Brasilia Standard Time)
+            {date}
           </Typography>
         </Box>
       </CardContent>
@@ -60,25 +69,33 @@ export const PastUploadCard = () => {
 
       <CardActions sx={{ pl: 2, display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row", gap: 3, overflow: "hidden" }}>
-          <TextIcon icon={<BarChart fontSize="small" />}>123</TextIcon>
-          <TextIcon icon={<ThumbUp fontSize="small" />}>0</TextIcon>
-          <TextIcon icon={<Comment fontSize="small" />}>0</TextIcon>
+          {isPast ? (
+            <>
+              <TextIcon icon={<BarChart fontSize="small" />}>{views ?? <Skeleton width="20px" />}</TextIcon>
+              <TextIcon icon={<ThumbUp fontSize="small" />}>{likes ?? <Skeleton width="20px" />}</TextIcon>
+              <TextIcon icon={<Comment fontSize="small" />}>{comments ?? <Skeleton width="20px" />}</TextIcon>
+            </>
+          ) : (
+            <Typography variant="body2" color="text.secondary" sx={{ pb: 1 }}>
+              Upcoming upload details...
+            </Typography>
+          )}
         </Box>
-
-        <Box sx={{ flexShrink: 0 }}>
-          <ExpandMore
-            expand={expanded}
-            onClick={() => setExpanded(!expanded)}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </Box>
+        {isPast && (
+          <Box sx={{ flexShrink: 0 }}>
+            <ExpandMore
+              expand={expanded}
+              onClick={() => setExpanded(!expanded)}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </Box>
+        )}
       </CardActions>
 
       {expanded && <Divider variant="middle" />}
-
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent sx={{ "&&": { pb: 1 } }}>
           <UploadDetails />
