@@ -8,6 +8,14 @@ const details = {
   processingTime: 15, // minutes
   clipsFetched: 5,
   clips: getClips(),
+  processingDetails: {
+    curateTime: 120, // in milliseconds
+    downloadTime: 450,
+    preProcessTime: 300,
+    concatenateTime: 150000,
+    generateMetadataTime: 200,
+    uploadYoutubeTime: 400,
+  },
 };
 
 const iconSx: SxProps = { verticalAlign: "middle", mr: 0.5 };
@@ -29,8 +37,9 @@ export const UploadDetails = () => {
     <Box>
       <Typography variant="subtitle1" gutterBottom>
         <Timer fontSize="small" sx={iconSx} />
-        Processing Time: {details.processingTime} minutes
+        Detailed Processing Time:
       </Typography>
+      <ProcessingDetails processingDetails={details.processingDetails} />
 
       <Typography variant="subtitle1" gutterBottom>
         <PlayCircleOutline fontSize="small" sx={iconSx} />
@@ -41,7 +50,6 @@ export const UploadDetails = () => {
         <Movie fontSize="small" sx={iconSx} />
         Fetched Clips URLs:
       </Typography>
-
       <List>
         {details.clips.map((clip, index) => (
           <ListItem key={index} sx={{ p: 0 }}>
@@ -58,6 +66,37 @@ export const UploadDetails = () => {
 
       <ClipModal url={selectedClipUrl} open={open} onClose={handleClose} />
     </Box>
+  );
+};
+
+const ProcessingDetails = ({ processingDetails }: { processingDetails: typeof details.processingDetails }) => {
+  const TypoListItem = ({ children }: { children: React.ReactNode }) => (
+    <ListItem>
+      <Typography variant="body2">{children}</Typography>
+    </ListItem>
+  );
+
+  const formatTime = (ms: number) => {
+    if (ms < 2000) {
+      return `${ms} ms`; // If less than 2 seconds, show milliseconds
+    } else if (ms < 120000) {
+      return `${(ms / 1000).toFixed(2)} seconds`; // If less than 120 seconds, show seconds
+    } else {
+      const minutes = Math.floor(ms / 60000);
+      const seconds = ((ms % 60000) / 1000).toFixed(0);
+      return `${(ms / 1000).toFixed(2)} seconds (${minutes}m ${seconds}s)`; // If 120 seconds or more, show minutes and seconds
+    }
+  };
+
+  return (
+    <List dense>
+      <TypoListItem>Curate: {formatTime(processingDetails.curateTime)}</TypoListItem>
+      <TypoListItem>Download: {formatTime(processingDetails.downloadTime)}</TypoListItem>
+      <TypoListItem>PreProcess: {formatTime(processingDetails.preProcessTime)}</TypoListItem>
+      <TypoListItem>Concatenate: {formatTime(processingDetails.concatenateTime)}</TypoListItem>
+      <TypoListItem>Generate Metadata: {formatTime(processingDetails.generateMetadataTime)}</TypoListItem>
+      <TypoListItem>Upload to YouTube: {formatTime(processingDetails.uploadYoutubeTime)}</TypoListItem>
+    </List>
   );
 };
 
