@@ -1,16 +1,12 @@
-import Paper, { PaperProps } from "@mui/material/Paper";
+import { useUploads } from "@/hooks/useUploads";
+import LinearProgress from "@mui/material/LinearProgress";
+import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { UploadCard } from "./uploadCard";
 
-type Props = {};
+const ChannelInfo = () => {
+  const { loading, uploads, reloadUploads } = useUploads();
 
-const InfoPaper = (p: PaperProps) => (
-  <Paper elevation={4} {...p}>
-    {p.children}
-  </Paper>
-);
-
-const ChannelInfo = (props: Props) => {
   return (
     <Paper elevation={1} sx={{ height: "100%", padding: 3 }}>
       <Grid container spacing={2}>
@@ -22,17 +18,25 @@ const ChannelInfo = (props: Props) => {
             image="/pending-thumbnail.jpeg"
           />
         </Grid>
-        <Grid xs={12}>
-          <UploadCard
-            isPast={true}
-            date="Mon Jan 08 2024 04:11:35 GMT-03 (Brasilia Standard Time)"
-            title="Best League clips of the day - loltyler1, lolmalice, ApplesloI, PekinWoof, duoking1, tych"
-            image="/example-thumbnail.jpeg"
-            comments={10}
-            likes={100}
-            views={102}
-          />
-        </Grid>
+        {loading ? (
+          <Grid xs={12}>
+            <LinearProgress sx={{ ml: 2, mr: 2 }} />
+          </Grid>
+        ) : (
+          uploads.map((upload, index) => (
+            <Grid xs={12} key={index}>
+              <UploadCard
+                isPast={true}
+                date={upload.uploadDate.toString()}
+                title={upload.title}
+                image={upload.thumbnailUrl}
+                comments={10}
+                likes={100}
+                views={102}
+              />
+            </Grid>
+          ))
+        )}
       </Grid>
     </Paper>
   );
