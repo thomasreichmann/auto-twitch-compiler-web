@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import Head from "next/head";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -52,6 +53,7 @@ function App({
           </LocalizationProvider>
         </ThemeProvider>
       </SessionProvider>
+      <SpeedInsights />
     </>
   );
 }
