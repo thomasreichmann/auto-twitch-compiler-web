@@ -19,6 +19,7 @@
     "@mui/x-date-pickers": "^6.3.1",
     "@vercel/speed-insights": "^1.0.8",
     "autosuggest-highlight": "^3.3.4",
+    "csv-parser": "^3.0.0",
     "dayjs": "^1.11.7",
     "eslint": "^8.55.0",
     "eslint-config-next": "^14.0.3",
