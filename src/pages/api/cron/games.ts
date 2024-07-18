@@ -11,6 +11,10 @@ if (!process.env.TWITCH_CLIENT_SECRET) {
   throw new Error("Please add your twitch client secret to .env.local");
 }
 
+export const config = {
+  maxDuration: 60,
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     console.log("Getting token");
